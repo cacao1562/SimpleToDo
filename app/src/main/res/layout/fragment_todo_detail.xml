@@ -69,6 +69,159 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/todoDetail_tl_title" />
 
+
+            <LinearLayout
+                android:id="@+id/todoDetail_month_linear"
+                android:layout_width="0dp"
+                android:layout_height="15dp"
+                android:orientation="horizontal"
+                android:weightSum="7"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                app:layout_constraintTop_toBottomOf="@+id/todoDetail_tl_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/todoDetail_month_01"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@{viewmodel.month01}"
+                    android:orientation="vertical"
+                    android:background="@color/colorPrimary">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@{viewmodel.monthTitle01}"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        android:includeFontPadding="false"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@{viewmodel.month02}"
+                    android:orientation="vertical"
+                    android:background="@android:color/holo_orange_dark">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@{viewmodel.monthTitle02}"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        android:includeFontPadding="false"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/todoDetail_radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                app:layout_constraintTop_toBottomOf="@+id/todoDetail_month_linear"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <RadioButton
+                    android:id="@+id/todoDetail_radio_01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="@{viewmodel.selectedDay == 0}"
+                    android:text="@{viewmodel.setRadioText(0)}"
+                    android:textColor="@drawable/date_radio_selector"
+                    android:textAlignment="center"
+                    android:drawablePadding="-60dp"
+                    android:drawableBottom="@drawable/date_radio_selector"/>
+
+                <RadioButton
+                    android:id="@+id/todoDetail_radio_02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="@{viewmodel.selectedDay == 1}"
+                    android:text="@{viewmodel.setRadioText(1)}"
+                    android:textColor="@drawable/date_radio_selector"
+                    android:textAlignment="center"
+                    android:drawablePadding="-60dp"
+                    android:drawableBottom="@drawable/date_radio_selector"/>
+
+                <RadioButton
+                    android:id="@+id/todoDetail_radio_03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="@{viewmodel.selectedDay == 2}"
+                    android:text="@{viewmodel.setRadioText(2)}"
+                    android:textColor="@drawable/date_radio_selector"
+                    android:textAlignment="center"
+                    android:drawablePadding="-60dp"
+                    android:drawableBottom="@drawable/date_radio_selector"/>
+
+                <RadioButton
+                    android:id="@+id/todoDetail_radio_04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="@{viewmodel.selectedDay == 3}"
+                    android:text="@{viewmodel.setRadioText(3)}"
+                    android:textColor="@drawable/date_radio_selector"
+                    android:textAlignment="center"
+                    android:drawablePadding="-60dp"
+                    android:drawableBottom="@drawable/date_radio_selector"/>
+
+                <RadioButton
+                    android:id="@+id/todoDetail_radio_05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="@{viewmodel.selectedDay == 4}"
+                    android:text="@{viewmodel.setRadioText(4)}"
+                    android:textColor="@drawable/date_radio_selector"
+                    android:textAlignment="center"
+                    android:drawablePadding="-60dp"
+                    android:drawableBottom="@drawable/date_radio_selector"/>
+
+                <RadioButton
+                    android:id="@+id/todoDetail_radio_06"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="@{viewmodel.selectedDay == 5}"
+                    android:text="@{viewmodel.setRadioText(5)}"
+                    android:textColor="@drawable/date_radio_selector"
+                    android:textAlignment="center"
+                    android:drawablePadding="-60dp"
+                    android:drawableBottom="@drawable/date_radio_selector"/>
+
+                <RadioButton
+                    android:id="@+id/todoDetail_radio_07"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="@{viewmodel.selectedDay == 6}"
+                    android:text="@{viewmodel.setRadioText(6)}"
+                    android:textColor="@drawable/date_radio_selector"
+                    android:textAlignment="center"
+                    android:drawablePadding="-60dp"
+                    android:drawableBottom="@drawable/date_radio_selector"/>
+            </RadioGroup>
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/todoDetail_btn_save"
                 android:layout_width="match_parent"
@@ -78,7 +231,7 @@
                 android:layout_marginEnd="@dimen/default_margin"
                 android:onClick="@{() -> viewmodel.updateTodo()}"
                 android:text="save"
-                app:layout_constraintTop_toBottomOf="@+id/todoDetail_tl_description" />
+                app:layout_constraintTop_toBottomOf="@+id/todoDetail_radioGroup" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/todoDetail_btn_datePicker"

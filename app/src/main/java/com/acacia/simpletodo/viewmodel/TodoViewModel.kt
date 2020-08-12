@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.acacia.simpletodo.database.TodoEntity
 import com.acacia.simpletodo.repository.TodoRepository
+import com.acacia.simpletodo.utils.getStringDate
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,9 +25,11 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
     private val _todoId = MutableLiveData<String>()
     val todoId: LiveData<String> = _todoId
 
-    fun getTodoList() {
+    fun getTodoList(index: Int) {
         viewModelScope.launch {
-            _items.value = todoRepository.getTodoList()
+//            _items.value = todoRepository.getTodoList()
+            val date = getStringDate(index)
+            _items.value = todoRepository.getTodoByDate(date)
         }
     }
 

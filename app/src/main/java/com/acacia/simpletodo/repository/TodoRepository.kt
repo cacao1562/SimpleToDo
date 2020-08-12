@@ -38,4 +38,13 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDAO) {
             }
         }
 
+    suspend fun getTodoByDate(date: String) =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                todoDao.getTaskByDate(date)
+            }catch (e: Exception) {
+                null
+            }
+        }
+
 }

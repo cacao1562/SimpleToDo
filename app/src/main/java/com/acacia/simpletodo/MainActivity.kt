@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var listAdapter: TodoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,16 +37,5 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         setContentView(binding.root)
 
-//        viewModel.items.observe(this, Observer {
-//
-//        })
-
-        val vm = binding.viewmodel
-        if (vm != null) {
-            listAdapter = TodoAdapter(vm)
-            binding.rvTodoList.adapter = listAdapter
-        }
-
-        viewModel.getTodoList()
     }
 }

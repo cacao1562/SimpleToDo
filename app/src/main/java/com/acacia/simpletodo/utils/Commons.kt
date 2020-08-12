@@ -1,5 +1,6 @@
 package com.acacia.simpletodo.utils
 
+import java.text.SimpleDateFormat
 import java.util.*
 
 fun getDate(pos: Int): String {
@@ -43,7 +44,16 @@ fun getWeek(week: Int): String {
     }
 }
 
-fun getDateList(size: Int): ArrayList<String> {
+fun getCalendarList() = listOf<Calendar>(getAddDate(0),
+                                         getAddDate(1),
+                                         getAddDate(2),
+                                         getAddDate(3),
+                                         getAddDate(4),
+                                         getAddDate(5),
+                                         getAddDate(6))
+
+
+fun getTimeList(size: Int): ArrayList<String> {
     val list = arrayListOf<String>()
     list.add("")
     for (i in 0 until size) {
@@ -55,4 +65,19 @@ fun getDateList(size: Int): ArrayList<String> {
     }
     list.add("")
     return list
+}
+
+fun getStringDate(index: Int): String {
+    val time = getCalendarList()[index].time
+    val sdf = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
+    return sdf.format(time)
+}
+
+fun getDatePosition(savedDate: String): Int {
+    for (i in 0 until 7) {
+        if (savedDate == getStringDate(i)) {
+            return i
+        }
+    }
+    return 0
 }

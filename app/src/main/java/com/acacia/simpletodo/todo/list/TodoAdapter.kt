@@ -1,4 +1,4 @@
-package com.acacia.simpletodo
+package com.acacia.simpletodo.todo.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,7 +13,9 @@ import com.acacia.simpletodo.viewmodel.TodoViewModel
  * Adapter for the task list. Has a reference to the [TasksViewModel] to send actions back to it.
  */
 class TodoAdapter(private val viewModel: TodoViewModel) :
-    ListAdapter<TodoEntity, TodoAdapter.ViewHolder>(TaskDiffCallback()) {
+    ListAdapter<TodoEntity, TodoAdapter.ViewHolder>(
+        TaskDiffCallback()
+    ) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
@@ -22,7 +24,9 @@ class TodoAdapter(private val viewModel: TodoViewModel) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(
+            parent
+        )
     }
 
     class ViewHolder private constructor(val binding: TodoItemBinding) :
@@ -40,7 +44,9 @@ class TodoAdapter(private val viewModel: TodoViewModel) :
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = TodoItemBinding.inflate(layoutInflater, parent, false)
 
-                return ViewHolder(binding)
+                return ViewHolder(
+                    binding
+                )
             }
         }
     }

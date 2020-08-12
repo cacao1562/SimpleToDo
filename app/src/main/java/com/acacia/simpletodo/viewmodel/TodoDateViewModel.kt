@@ -3,8 +3,8 @@ package com.acacia.simpletodo.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.acacia.simpletodo.utils.getAddDate
-import com.acacia.simpletodo.utils.getDateList
+import com.acacia.simpletodo.utils.getCalendarList
+import com.acacia.simpletodo.utils.getTimeList
 import com.acacia.simpletodo.utils.getDisplayDate
 import java.util.*
 import kotlin.collections.ArrayList
@@ -37,29 +37,24 @@ class TodoDateViewModel : ViewModel() {
     val date06 = MutableLiveData<String>()
     val date07 = MutableLiveData<String>()
 
-    private val dateList = listOf<Calendar>(getAddDate(0),
-                                            getAddDate(1),
-                                            getAddDate(2),
-                                            getAddDate(3),
-                                            getAddDate(4),
-                                            getAddDate(5),
-                                            getAddDate(6))
 
     fun init(cal: Calendar?) {
 
-        date01.value = getDisplayDate(dateList[0])
-        date02.value = getDisplayDate(dateList[1])
-        date03.value = getDisplayDate(dateList[2])
-        date04.value = getDisplayDate(dateList[3])
-        date05.value = getDisplayDate(dateList[4])
-        date06.value = getDisplayDate(dateList[5])
-        date07.value = getDisplayDate(dateList[6])
+        val list = getCalendarList()
 
-        _hourList.value = getDateList(24)
-        _minList.value = getDateList(60)
+        date01.value = getDisplayDate(list[0])
+        date02.value = getDisplayDate(list[1])
+        date03.value = getDisplayDate(list[2])
+        date04.value = getDisplayDate(list[3])
+        date05.value = getDisplayDate(list[4])
+        date06.value = getDisplayDate(list[5])
+        date07.value = getDisplayDate(list[6])
+
+        _hourList.value = getTimeList(24)
+        _minList.value = getTimeList(60)
 
         cal?.let {
-            for ((index, date) in dateList.withIndex()) {
+            for ((index, date) in list.withIndex()) {
                 if (date.get(Calendar.DATE) == cal.get(Calendar.DATE)) {
                     _selectedDay.value = index
                 }

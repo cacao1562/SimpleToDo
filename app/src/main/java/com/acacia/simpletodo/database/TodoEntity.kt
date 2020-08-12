@@ -10,6 +10,8 @@ data class TodoEntity @JvmOverloads constructor(
     @ColumnInfo(name = "title") var title: String = "",
     @ColumnInfo(name = "description") var description: String = "",
     @ColumnInfo(name = "completed") var isCompleted: Boolean = false,
+    @ColumnInfo(name = "date") var date: String = "",
+    @ColumnInfo(name = "notiDate") var notiDate: String = "",
     @PrimaryKey @ColumnInfo(name = "entryid") var id: String = UUID.randomUUID().toString()
 ) {
 

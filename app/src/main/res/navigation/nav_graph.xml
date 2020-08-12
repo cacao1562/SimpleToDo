@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/todoMainFragment"
-        android:name="com.acacia.simpletodo.TodoMainFragment"
+        android:name="com.acacia.simpletodo.todo.main.TodoMainFragment"
         android:label="TodoMainFragment"
         tools:layout="@layout/fragment_todo_main">
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/todoDetailFragment"
-        android:name="com.acacia.simpletodo.TodoDetailFragment"
+        android:name="com.acacia.simpletodo.todo.detail.TodoDetailFragment"
         android:label="TodoDetailFragment"
         tools:layout="@layout/fragment_todo_detail">
         <argument

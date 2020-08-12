@@ -1,4 +1,4 @@
-package com.acacia.simpletodo
+package com.acacia.simpletodo.todo.datedialog
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,9 @@ import com.acacia.simpletodo.databinding.DateItemBinding
 class DatePickerAdapter(private val list: ArrayList<String>) : RecyclerView.Adapter<DatePickerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(
+            parent
+        )
     }
 
     override fun getItemCount(): Int {
@@ -33,7 +35,9 @@ class DatePickerAdapter(private val list: ArrayList<String>) : RecyclerView.Adap
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = DateItemBinding.inflate(layoutInflater, parent, false)
 
-                return ViewHolder(binding)
+                return ViewHolder(
+                    binding
+                )
             }
         }
     }

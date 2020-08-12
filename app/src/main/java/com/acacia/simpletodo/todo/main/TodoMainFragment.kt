@@ -1,4 +1,4 @@
-package com.acacia.simpletodo
+package com.acacia.simpletodo.todo.main
 
 import android.os.Bundle
 import android.util.Log
@@ -6,21 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.acacia.simpletodo.databinding.FragmentTodoDetailBinding
-import com.acacia.simpletodo.databinding.FragmentTodoListBinding
+import com.acacia.simpletodo.todo.list.TodoListFragment
 import com.acacia.simpletodo.databinding.FragmentTodoMainBinding
-import com.acacia.simpletodo.di.TodoComponent
 import com.acacia.simpletodo.utils.getDate
-import com.acacia.simpletodo.viewmodel.TodoDetailViewModel
-import com.acacia.simpletodo.viewmodel.TodoViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_todo_main.*
-import java.util.*
-import javax.inject.Inject
 
 class TodoMainFragment : Fragment() {
 
@@ -40,15 +31,18 @@ class TodoMainFragment : Fragment() {
         Log.d("ung", "Main fm onActivityCreated")
         binding.lifecycleOwner = this
         binding.todoMainFmViewpager.adapter =
-            TodoViewPagerAdapter(requireActivity().supportFragmentManager, lifecycle,
+            TodoViewPagerAdapter(
+                requireActivity().supportFragmentManager, lifecycle,
                 arrayListOf(
-                    TodoListFragment(),
-                    TodoListFragment(),
-                    TodoListFragment(),
-                    TodoListFragment(),
-                    TodoListFragment(),
-                    TodoListFragment(),
-                    TodoListFragment()))
+                    TodoListFragment(0),
+                    TodoListFragment(1),
+                    TodoListFragment(2),
+                    TodoListFragment(3),
+                    TodoListFragment(4),
+                    TodoListFragment(5),
+                    TodoListFragment(6)
+                )
+            )
 
         binding.todoMainFmViewpager.adapter?.notifyDataSetChanged()
 //        TabLayoutMediator(binding.todoMainFmTabs, binding.todoMainFmViewpager,
@@ -78,7 +72,10 @@ class TodoMainFragment : Fragment() {
     }
 
     fun openTodoDetail(todoId: String?) {
-        val action = TodoMainFragmentDirections.actionTodoMainFragmentToTodoDetailFragment2(todoId)
+        val action =
+            TodoMainFragmentDirections.actionTodoMainFragmentToTodoDetailFragment2(
+                todoId
+            )
         findNavController().navigate(action)
     }
 

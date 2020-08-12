@@ -1,9 +1,8 @@
-package com.acacia.simpletodo
+package com.acacia.simpletodo.todo.datedialog
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.acacia.simpletodo.R
 import com.acacia.simpletodo.databinding.DialogDatePickerBinding
 import com.acacia.simpletodo.viewmodel.TodoDateViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -20,7 +20,8 @@ import java.util.*
 
 
 class DatePickerDialog(private val cal: Calendar?,
-                       private val callback: OnDateSelectedListener) : BottomSheetDialogFragment() {
+                       private val callback: OnDateSelectedListener
+) : BottomSheetDialogFragment() {
 
     interface OnDateSelectedListener {
         fun onResult(date: DateSelected)
@@ -104,7 +105,13 @@ class DatePickerDialog(private val cal: Calendar?,
 
         binding.datePickerBtnSave.setOnClickListener {
             dismiss()
-            callback.onResult(DateSelected("11","13","17"))
+            callback.onResult(
+                DateSelected(
+                    "11",
+                    "13",
+                    "17"
+                )
+            )
         }
 
         binding.datePickerRadioGroup.setOnCheckedChangeListener { group, checkedId ->

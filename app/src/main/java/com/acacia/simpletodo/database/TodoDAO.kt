@@ -25,6 +25,10 @@ interface TodoDAO {
     @Query("SELECT * FROM todoList WHERE entryid = :taskId")
     suspend fun getTaskById(taskId: String): TodoEntity?
 
+
+    @Query("SELECT * FROM todoList WHERE date = :date")
+    suspend fun getTaskByDate(date: String): List<TodoEntity>?
+
     /**
      * Insert a task in the database. If the task already exists, replace it.
      *

@@ -1,4 +1,4 @@
-package com.acacia.simpletodo
+package com.acacia.simpletodo.todo.list
 
 import android.os.Bundle
 import android.util.Log
@@ -9,12 +9,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.acacia.simpletodo.R
+import com.acacia.simpletodo.TodoApplication
 import com.acacia.simpletodo.databinding.FragmentTodoListBinding
 import com.acacia.simpletodo.di.TodoComponent
+import com.acacia.simpletodo.todo.main.TodoMainFragment
 import com.acacia.simpletodo.viewmodel.TodoViewModel
 import javax.inject.Inject
 
-class TodoListFragment : Fragment() {
+class TodoListFragment(private val index: Int) : Fragment() {
 
     private val appComponent: TodoComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         (activity?.application as TodoApplication).appComponent
@@ -56,7 +59,7 @@ class TodoListFragment : Fragment() {
             binding.todoListFmRvTodoList.setHasFixedSize(true)
             binding.todoListFmRvTodoList.adapter = listAdapter
         }
-        viewModel.getTodoList()
+        viewModel.getTodoList(index)
 
         viewModel.todoId.observe(viewLifecycleOwner, Observer { todoId ->
             activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)?.let {
