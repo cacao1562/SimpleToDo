@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.widget.CompoundButton" />
+
+        <variable
+            name="todo"
+            type="com.acacia.simpletodo.database.TodoEntity" />
+
+        <variable
+            name="viewmodel"
+            type="com.acacia.simpletodo.viewmodel.TodoViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:onClick="@{() -> viewmodel.openTodoDetail(todo.id)}">
+        <!--        android:onClick="@{() -> viewmodel.openTask(task.id)}"-->
+
+        <CheckBox
+            android:id="@+id/complete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+        <!--        android:onClick="@{(view) -> viewmodel.completeTask(task, ((CompoundButton)view).isChecked())}"-->
+        <!--        android:checked="@{task.completed}"-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/todoItem_tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{todo.titleForList}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                app:completedTask="@{todo.completed}" />
+
+            <TextView
+                android:id="@+id/todoItem_tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{todo.description}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                app:completedTask="@{todo.completed}" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

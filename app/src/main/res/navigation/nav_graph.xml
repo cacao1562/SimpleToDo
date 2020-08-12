@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/todoMainFragment">
+
+    <fragment
+        android:id="@+id/todoMainFragment"
+        android:name="com.acacia.simpletodo.TodoMainFragment"
+        android:label="TodoMainFragment"
+        tools:layout="@layout/fragment_todo_main">
+        <action
+            android:id="@+id/action_todoMainFragment_to_todoDetailFragment2"
+            app:destination="@id/todoDetailFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/todoDetailFragment"
+        android:name="com.acacia.simpletodo.TodoDetailFragment"
+        android:label="TodoDetailFragment"
+        tools:layout="@layout/fragment_todo_detail">
+        <argument
+            android:name="todoId"
+            app:argType="string"
+            app:nullable="true"/>
+    </fragment>
+</navigation>

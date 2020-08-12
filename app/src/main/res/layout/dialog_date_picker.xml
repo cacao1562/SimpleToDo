@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="todo"
+            type="com.acacia.simpletodo.database.TodoEntity" />
+
+        <variable
+            name="viewmodel"
+            type="com.acacia.simpletodo.viewmodel.TodoDateViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog_border">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:fillViewport="true"
+                android:layout_marginTop="50dp">
+
+                <RadioGroup
+                    android:id="@+id/datePicker_radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <RadioButton
+                        android:id="@+id/datePicker_radio_01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:checked="@{viewmodel.selectedDay == 0}"
+                        android:text="@{viewmodel.date01}"
+                        android:textColor="@drawable/date_radio_selector"
+                        android:textAlignment="center"
+                        android:drawablePadding="-45dp"
+                        android:drawableBottom="@drawable/date_radio_selector"/>
+
+                    <RadioButton
+                        android:id="@+id/datePicker_radio_02"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:checked="@{viewmodel.selectedDay == 1}"
+                        android:text="@{viewmodel.date02}"
+                        android:textColor="@drawable/date_radio_selector"
+                        android:textAlignment="center"
+                        android:drawablePadding="-40dp"
+                        android:drawableBottom="@drawable/date_radio_selector"/>
+
+                    <RadioButton
+                        android:id="@+id/datePicker_radio_03"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:checked="@{viewmodel.selectedDay == 2}"
+                        android:text="@{viewmodel.date03}"
+                        android:textColor="@drawable/date_radio_selector"
+                        android:textAlignment="center"
+                        android:drawablePadding="-40dp"
+                        android:drawableBottom="@drawable/date_radio_selector"/>
+
+                    <RadioButton
+                        android:id="@+id/datePicker_radio_04"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:checked="@{viewmodel.selectedDay == 3}"
+                        android:text="@{viewmodel.date04}"
+                        android:textColor="@drawable/date_radio_selector"
+                        android:textAlignment="center"
+                        android:drawablePadding="-40dp"
+                        android:drawableBottom="@drawable/date_radio_selector"/>
+
+                    <RadioButton
+                        android:id="@+id/datePicker_radio_05"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:checked="@{viewmodel.selectedDay == 4}"
+                        android:text="@{viewmodel.date05}"
+                        android:textColor="@drawable/date_radio_selector"
+                        android:textAlignment="center"
+                        android:drawablePadding="-40dp"
+                        android:drawableBottom="@drawable/date_radio_selector"/>
+
+                    <RadioButton
+                        android:id="@+id/datePicker_radio_06"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:checked="@{viewmodel.selectedDay == 5}"
+                        android:text="@{viewmodel.date06}"
+                        android:textColor="@drawable/date_radio_selector"
+                        android:textAlignment="center"
+                        android:drawablePadding="-40dp"
+                        android:drawableBottom="@drawable/date_radio_selector"/>
+
+                    <RadioButton
+                        android:id="@+id/datePicker_radio_07"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:checked="@{viewmodel.selectedDay == 6}"
+                        android:text="@{viewmodel.date07}"
+                        android:textColor="@drawable/date_radio_selector"
+                        android:textAlignment="center"
+                        android:drawablePadding="-40dp"
+                        android:drawableBottom="@drawable/date_radio_selector"/>
+                </RadioGroup>
+
+            </HorizontalScrollView>
+
+
+<!--            <androidx.core.widget.NestedScrollView-->
+<!--                android:id="@+id/datePicker_constraintLayout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/datePicker_radioGroup">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/datePicker_rv_hour"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_weight="1"
+                        android:focusableInTouchMode="true"
+                        app:date="@{viewmodel.hourList}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/datePicker_rv_min"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_weight="1"
+                        android:focusableInTouchMode="true"
+                        app:date="@{viewmodel.minList}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                </LinearLayout>
+
+<!--            </androidx.core.widget.NestedScrollView>-->
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/datePicker_btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="save" />
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>
