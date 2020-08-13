@@ -32,15 +32,15 @@ class TodoMainFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.todoMainFmViewpager.adapter =
             TodoViewPagerAdapter(
-                requireActivity().supportFragmentManager, lifecycle,
+                childFragmentManager, lifecycle,
                 arrayListOf(
-                    TodoListFragment(0),
-                    TodoListFragment(1),
-                    TodoListFragment(2),
-                    TodoListFragment(3),
-                    TodoListFragment(4),
-                    TodoListFragment(5),
-                    TodoListFragment(6)
+                    TodoListFragment.newInstance(0),
+                    TodoListFragment.newInstance(1),
+                    TodoListFragment.newInstance(2),
+                    TodoListFragment.newInstance(3),
+                    TodoListFragment.newInstance(4),
+                    TodoListFragment.newInstance(5),
+                    TodoListFragment.newInstance(6)
                 )
             )
 

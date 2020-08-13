@@ -17,7 +17,7 @@ import com.acacia.simpletodo.todo.main.TodoMainFragment
 import com.acacia.simpletodo.viewmodel.TodoViewModel
 import javax.inject.Inject
 
-class TodoListFragment(private val index: Int) : Fragment() {
+class TodoListFragment : Fragment() {
 
     private val appComponent: TodoComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         (activity?.application as TodoApplication).appComponent
@@ -31,6 +31,16 @@ class TodoListFragment(private val index: Int) : Fragment() {
     private lateinit var listAdapter: TodoAdapter
 
     private val viewModel by viewModels<TodoViewModel> { viewModelFactory }
+
+    companion object {
+        fun newInstance(index: Int): TodoListFragment {
+            val fm = TodoListFragment()
+            val args = Bundle()
+            args.putInt(TodoListFragment::class.simpleName, index)
+            fm.arguments = args
+            return fm
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +69,11 @@ class TodoListFragment(private val index: Int) : Fragment() {
             binding.todoListFmRvTodoList.setHasFixedSize(true)
             binding.todoListFmRvTodoList.adapter = listAdapter
         }
-        viewModel.getTodoList(index)
+
+        arguments?.let {
+            val index = it.getInt(TodoListFragment::class.java.simpleName)
+            viewModel.getTodoList(index)
+        }
 
         viewModel.todoId.observe(viewLifecycleOwner, Observer { todoId ->
             activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)?.let {
