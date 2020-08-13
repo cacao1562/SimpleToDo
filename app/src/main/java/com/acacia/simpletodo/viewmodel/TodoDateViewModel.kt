@@ -6,19 +6,19 @@ import androidx.lifecycle.ViewModel
 import com.acacia.simpletodo.utils.getCalendarList
 import com.acacia.simpletodo.utils.getTimeList
 import com.acacia.simpletodo.utils.getDisplayDate
+import com.acacia.simpletodo.utils.getWeek
 import java.util.*
 import kotlin.collections.ArrayList
 
 class TodoDateViewModel : ViewModel() {
 
+    // Hour RecyclerView adapter items
     private val _hourList = MutableLiveData<ArrayList<String>>()
     val hourList: LiveData<ArrayList<String>> = _hourList
 
+    // Minute RecyclerView adapter items
     private val _minList = MutableLiveData<ArrayList<String>>()
     val minList: LiveData<ArrayList<String>> = _minList
-
-    private val _selectedDay = MutableLiveData<Int>(0)
-    val selectedDay: LiveData<Int> = _selectedDay
 
     private val _selectedHour = MutableLiveData<Int>(0)
     val selectedHour: LiveData<Int> = _selectedHour
@@ -26,57 +26,44 @@ class TodoDateViewModel : ViewModel() {
     private val _selectedMin = MutableLiveData<Int>(0)
     val selectedMin: LiveData<Int> = _selectedMin
 
-    /**
-     * 라디오 버튼 체크
-     */
-    val date01 = MutableLiveData<String>()
-    val date02 = MutableLiveData<String>()
-    val date03 = MutableLiveData<String>()
-    val date04 = MutableLiveData<String>()
-    val date05 = MutableLiveData<String>()
-    val date06 = MutableLiveData<String>()
-    val date07 = MutableLiveData<String>()
+    // Date textView
+    val yearText = MutableLiveData<String>()
+    val dateText = MutableLiveData<String>()
 
 
-    fun init(cal: Calendar?) {
+    private var selectedDayIndex = 0
 
-        val list = getCalendarList()
+    lateinit var selectedCal: Calendar
 
-        date01.value = getDisplayDate(list[0])
-        date02.value = getDisplayDate(list[1])
-        date03.value = getDisplayDate(list[2])
-        date04.value = getDisplayDate(list[3])
-        date05.value = getDisplayDate(list[4])
-        date06.value = getDisplayDate(list[5])
-        date07.value = getDisplayDate(list[6])
+    fun saveTime(): Calendar {
+
+        selectedCal.set(Calendar.HOUR_OF_DAY, selectedHour.value!!)
+        selectedCal.set(Calendar.MINUTE, selectedMin.value!!)
+        return selectedCal
+    }
+
+    fun init(cal: Calendar) {
+
+        selectedCal = cal
 
         _hourList.value = getTimeList(24)
         _minList.value = getTimeList(60)
 
-        cal?.let {
-            for ((index, date) in list.withIndex()) {
-                if (date.get(Calendar.DATE) == cal.get(Calendar.DATE)) {
-                    _selectedDay.value = index
-                }
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH)
+        val day = cal.get(Calendar.DATE)
+        val week = cal.get(Calendar.DAY_OF_WEEK)
+
+        yearText.value = "${year}"
+        dateText.value = "${month}월 ${day}일 ${getWeek(week)}요일"
+
+        val list = getCalendarList()
+        for ((index, date) in list.withIndex()) {
+            if (date.get(Calendar.DATE) == cal.get(Calendar.DATE)) {
+                selectedDayIndex = index
             }
-
         }
 
-    }
-
-    fun setSelectedDay(index: Int) {
-        /**
-         * 오늘이 아닌 다른 날짜에서 현재 시간보다 낮게 설정하고 오늘 날짜 탭 했을때
-         * 지금 시간으로 스크롤되게 설정
-         */
-        if (index == 0) {
-            val now = Calendar.getInstance()
-            val hour = now.get(Calendar.HOUR_OF_DAY)
-            val min = now.get(Calendar.MINUTE)
-            _selectedHour.value = hour
-            _selectedMin.value = min
-        }
-        _selectedDay.value = index
     }
 
     /**
@@ -101,29 +88,57 @@ class TodoDateViewModel : ViewModel() {
      * 오늘 날짜가 선택되었을때 현재 시간보다 전 시간을 설정할 수 없도록 변경
      */
     fun getHour(): Int {
-        return if (_selectedDay.value == 0) {
+        return if (selectedDayIndex == 0) {
             val now = Calendar.getInstance()
             val hour = now.get(Calendar.HOUR_OF_DAY)
-            if (selectedHour.value!! < hour) {
-                hour + 2
-            }else {
-                _selectedHour.value!!
+            val min = now.get(Calendar.MINUTE)
+
+            when {
+                selectedHour.value!! < hour -> {
+                    hour + 2
+                }
+                (selectedHour.value!! == hour && selectedMin.value!! < min) -> {
+                    _selectedMin.value = min
+                    _selectedHour.value!!
+                }
+                else -> {
+                    _selectedHour.value!!
+                }
             }
-        }else {
+        } else {
             _selectedHour.value!!
         }
     }
 
+    fun getLimitTime(type: Int): Int {
+        when(type) {
+            0 -> {
+            }
+            1 -> {
+            }
+        }
+        return 0
+    }
+
     fun getMin(): Int {
-        return if (_selectedDay.value == 0) {
+        return if (selectedDayIndex == 0) {
+
             val now = Calendar.getInstance()
+            val hour = now.get(Calendar.HOUR_OF_DAY)
             val min = now.get(Calendar.MINUTE)
-            if (selectedMin.value!! < min) {
+
+            if (selectedHour.value!! <= hour && selectedMin.value!! < min) {
                 min + 2
+//                if (selectedMin.value!! < min) {
+//                    min + 2
+//                } else {
+//                    selectedMin.value!!
+//                }
             }else {
                 selectedMin.value!!
             }
-        }else {
+
+        } else {
             selectedMin.value!!
         }
     }

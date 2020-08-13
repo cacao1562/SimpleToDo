@@ -31,9 +31,11 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
     private val _selectedDay = MutableLiveData<Int>(0)
     val selectedDay: LiveData<Int> = _selectedDay
 
+    // Month bar view layout_weight
     val month01 = MutableLiveData<Float>(0f)
     val month02 = MutableLiveData<Float>(0f)
 
+    // Month bar view textView text
     val monthTitle01 = MutableLiveData<String>()
     val monthTitle02 = MutableLiveData<String>()
 

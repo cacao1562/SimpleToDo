@@ -1,5 +1,6 @@
 package com.acacia.simpletodo.todo.detail
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.acacia.simpletodo.R
 import com.acacia.simpletodo.TodoApplication
 import com.acacia.simpletodo.databinding.FragmentTodoDetailBinding
 import com.acacia.simpletodo.di.TodoComponent
+import com.acacia.simpletodo.utils.getCalendarList
 import com.acacia.simpletodo.viewmodel.TodoDetailViewModel
 import javax.inject.Inject
 
@@ -57,7 +59,7 @@ class TodoDetailFragment : Fragment(),
 
         binding.todoDetailBtnDatePicker.setOnClickListener {
             val dialog = DatePickerDialog(
-                null,
+                getCalendarList()[viewModel.selectedDay.value!!],
                 this
             )
             dialog.show(activity?.supportFragmentManager!!, dialog.tag)
@@ -77,7 +79,7 @@ class TodoDetailFragment : Fragment(),
 
     }
 
-    override fun onResult(date: DatePickerDialog.DateSelected) {
-        Log.d("ung", date.toString())
+    override fun onResult(cal: java.util.Calendar) {
+        Log.d("ddd", "onResult = $cal")
     }
 }

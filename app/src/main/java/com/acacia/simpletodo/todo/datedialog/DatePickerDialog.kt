@@ -1,11 +1,15 @@
 package com.acacia.simpletodo.todo.datedialog
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,19 +23,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.*
 
 
-class DatePickerDialog(private val cal: Calendar?,
+class DatePickerDialog(private val cal: Calendar,
                        private val callback: OnDateSelectedListener
 ) : BottomSheetDialogFragment() {
 
     interface OnDateSelectedListener {
-        fun onResult(date: DateSelected)
+        fun onResult(cal: Calendar)
     }
-
-    data class DateSelected(
-        val day: String,
-        val hour: String,
-        val min: String
-    )
 
     private val viewModel by viewModels<TodoDateViewModel>()
 
@@ -50,6 +48,9 @@ class DatePickerDialog(private val cal: Calendar?,
                     binding.datePickerRvHour.id -> {
                         Log.d("vvv", "rv hour  = ${lm.findFirstVisibleItemPosition()} ")
                         viewModel.setSelectedHour(lm.findFirstVisibleItemPosition())
+//                        val child = lm.getChildAt(lm.findFirstVisibleItemPosition())
+//                        child?.findViewById<AppCompatTextView>(R.id.dateItem_tv_date)?.setTextColor(
+//                            Color.GREEN)
                     }
                     binding.datePickerRvMin.id -> {
                         Log.d("vvv", "rv min   = ${lm.findFirstVisibleItemPosition()} ")
@@ -105,26 +106,9 @@ class DatePickerDialog(private val cal: Calendar?,
 
         binding.datePickerBtnSave.setOnClickListener {
             dismiss()
-            callback.onResult(
-                DateSelected(
-                    "11",
-                    "13",
-                    "17"
-                )
-            )
+            callback.onResult(viewModel.saveTime())
         }
 
-        binding.datePickerRadioGroup.setOnCheckedChangeListener { group, checkedId ->
-            when(checkedId) {
-                R.id.datePicker_radio_01 -> { viewModel.setSelectedDay(0) }
-                R.id.datePicker_radio_02 -> { viewModel.setSelectedDay(1) }
-                R.id.datePicker_radio_03 -> { viewModel.setSelectedDay(2) }
-                R.id.datePicker_radio_04 -> { viewModel.setSelectedDay(3) }
-                R.id.datePicker_radio_05 -> { viewModel.setSelectedDay(4) }
-                R.id.datePicker_radio_06 -> { viewModel.setSelectedDay(5) }
-                R.id.datePicker_radio_07 -> { viewModel.setSelectedDay(6) }
-            }
-        }
 
         viewModel.selectedHour.observe(viewLifecycleOwner, Observer {
             val pos = viewModel.getHour()
