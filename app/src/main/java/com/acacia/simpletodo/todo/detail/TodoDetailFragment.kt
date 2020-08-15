@@ -59,7 +59,7 @@ class TodoDetailFragment : Fragment(),
 
         binding.todoDetailBtnDatePicker.setOnClickListener {
             val dialog = DatePickerDialog(
-                getCalendarList()[viewModel.selectedDay.value!!],
+                viewModel.selectedCalendar,
                 this
             )
             dialog.show(activity?.supportFragmentManager!!, dialog.tag)
@@ -77,9 +77,24 @@ class TodoDetailFragment : Fragment(),
             }
         }
 
+        binding.todoDetailSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            viewModel.isChecked.value = isChecked
+        }
+
+        binding.todoDetailNotiLinear.setOnClickListener {
+            if (viewModel.isChecked.value!!) {
+                val dialog = DatePickerDialog(
+                    viewModel.selectedCalendar,
+                    this
+                )
+                dialog.show(activity?.supportFragmentManager!!, dialog.tag)
+            }
+        }
+
     }
 
     override fun onResult(cal: java.util.Calendar) {
+        viewModel.setNotiView(cal)
         Log.d("ddd", "onResult = $cal")
     }
 }

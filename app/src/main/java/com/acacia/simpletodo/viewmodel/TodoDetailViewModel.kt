@@ -7,10 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.acacia.simpletodo.database.TodoEntity
 import com.acacia.simpletodo.repository.TodoRepository
-import com.acacia.simpletodo.utils.getCalendarList
-import com.acacia.simpletodo.utils.getDatePosition
-import com.acacia.simpletodo.utils.getDisplayDate
-import com.acacia.simpletodo.utils.getStringDate
+import com.acacia.simpletodo.utils.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -41,6 +38,13 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
 
     private var taskId: String? = null
 
+    lateinit var selectedCalendar: Calendar
+
+    val notiDate = MutableLiveData<String>()
+    var notiTime = MutableLiveData<String>()
+
+    val isChecked = MutableLiveData<Boolean>(false)
+
     fun loadTodo(id: String?) {
 
         taskId = id
@@ -53,9 +57,18 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
                     title.value = todo.title
                     description.value = todo.description
                     _selectedDay.value = getDatePosition(todo.date)
+                    isChecked.value = !todo.notiDate.isNullOrEmpty()
+
                 }
             }
         }
+
+        initMonthBar()
+
+
+    }
+
+    private fun initMonthBar() {
 
         val months = getCalendarList().groupBy { it.get(Calendar.MONTH) }
 
@@ -74,24 +87,35 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
             }
 
         }
-
     }
 
     fun updateTodo() {
 
         val title = title.value
-        val des = description.value
-        val date = getStringDate(_selectedDay.value!!)
 
         if (title.isNullOrEmpty()) {
+            ToastHelper.showToast("제목을 입력해 주세요..")
             return
         }
 
+        val des = description.value
+        val date = getStringDate(_selectedDay.value!!)
+        var notiTime = ""
+
+        if (isChecked.value!!) {
+            if (selectedCalendar.before(Calendar.getInstance())) {
+                ToastHelper.showToast("알림 시간을 현재 시간 이후로 설정해주세요.")
+                return
+            }else {
+                notiTime = getStringNotiTime(selectedCalendar)
+            }
+        }
+
         taskId?.let {
-            val todo = TodoEntity(title = title, description = des ?: "", id = it, date = date)
+            val todo = TodoEntity(title = title, description = des ?: "", id = it, date = date, notiDate = notiTime)
             update(todo)
         } ?: run {
-            val todo = TodoEntity(title = title, description = des ?: "", date = date)
+            val todo = TodoEntity(title = title, description = des ?: "", date = date, notiDate = notiTime)
             update(todo)
         }
 
@@ -103,7 +127,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
         }
     }
 
-    fun setRadioText(index: Int): String {
+    fun getRadioText(index: Int): String {
         val list = getCalendarList()
         return getDisplayDate(list[index])
     }
@@ -111,5 +135,21 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
 
     fun setSelectedDay(index: Int) {
         _selectedDay.value = index
+        selectedCalendar = getCalendarList()[index]
+    }
+
+    fun setNotiView(cal: Calendar) {
+        selectedCalendar = cal
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH)
+        val day = cal.get(Calendar.DATE)
+        val week = cal.get(Calendar.DAY_OF_WEEK)
+
+        notiDate.value = "${year}.${month}.${day} (${getWeek(week)}요일)"
+
+        val hour = cal.get(Calendar.HOUR_OF_DAY)
+        val min = cal.get(Calendar.MINUTE)
+
+        notiTime.value = "${hour}시 ${min}분"
     }
 }

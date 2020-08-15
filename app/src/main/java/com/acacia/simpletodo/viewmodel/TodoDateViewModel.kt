@@ -35,12 +35,6 @@ class TodoDateViewModel : ViewModel() {
 
     lateinit var selectedCal: Calendar
 
-    fun saveTime(): Calendar {
-
-        selectedCal.set(Calendar.HOUR_OF_DAY, selectedHour.value!!)
-        selectedCal.set(Calendar.MINUTE, selectedMin.value!!)
-        return selectedCal
-    }
 
     fun init(cal: Calendar) {
 
@@ -53,6 +47,12 @@ class TodoDateViewModel : ViewModel() {
         val month = cal.get(Calendar.MONTH)
         val day = cal.get(Calendar.DATE)
         val week = cal.get(Calendar.DAY_OF_WEEK)
+
+        val hour = cal.get(Calendar.HOUR_OF_DAY)
+        val min = cal.get(Calendar.MINUTE)
+
+        _selectedHour.value = hour + 2
+        _selectedMin.value = min + 2
 
         yearText.value = "${year}"
         dateText.value = "${month}월 ${day}일 ${getWeek(week)}요일"
@@ -110,15 +110,6 @@ class TodoDateViewModel : ViewModel() {
         }
     }
 
-    fun getLimitTime(type: Int): Int {
-        when(type) {
-            0 -> {
-            }
-            1 -> {
-            }
-        }
-        return 0
-    }
 
     fun getMin(): Int {
         return if (selectedDayIndex == 0) {
@@ -129,18 +120,20 @@ class TodoDateViewModel : ViewModel() {
 
             if (selectedHour.value!! <= hour && selectedMin.value!! < min) {
                 min + 2
-//                if (selectedMin.value!! < min) {
-//                    min + 2
-//                } else {
-//                    selectedMin.value!!
-//                }
             }else {
                 selectedMin.value!!
             }
-
         } else {
             selectedMin.value!!
         }
+    }
+
+
+    fun saveTime(): Calendar {
+
+        selectedCal.set(Calendar.HOUR_OF_DAY, selectedHour.value!!)
+        selectedCal.set(Calendar.MINUTE, selectedMin.value!!)
+        return selectedCal
     }
 
 }

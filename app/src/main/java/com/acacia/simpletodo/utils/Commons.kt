@@ -73,6 +73,12 @@ fun getStringDate(index: Int): String {
     return sdf.format(time)
 }
 
+fun getStringNotiTime(cal: Calendar): String {
+    val time = cal.time
+    val sdf = SimpleDateFormat("yyyyMMddHHmm", Locale.KOREA)
+    return sdf.format(time)
+}
+
 fun getDatePosition(savedDate: String): Int {
     for (i in 0 until 7) {
         if (savedDate == getStringDate(i)) {

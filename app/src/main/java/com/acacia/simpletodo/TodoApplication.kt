@@ -7,6 +7,10 @@ import com.acacia.simpletodo.di.TodoModule
 
 class TodoApplication : Application() {
 
+    companion object {
+        lateinit var instance: TodoApplication private set
+    }
+
     val appComponent: TodoComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         DaggerTodoComponent
             .builder()
@@ -17,6 +21,7 @@ class TodoApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
         injectMembers()
     }
 
