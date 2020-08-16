@@ -298,8 +298,6 @@
 
             </FrameLayout>
 
-
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/todoDetail_btn_save"
                 android:layout_width="match_parent"
@@ -310,16 +308,6 @@
                 android:onClick="@{() -> viewmodel.updateTodo()}"
                 android:text="save"
                 app:layout_constraintTop_toBottomOf="@+id/todoDetail_noti_frame" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/todoDetail_btn_datePicker"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="@dimen/default_margin"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:text="date picker"
-                app:layout_constraintTop_toBottomOf="@+id/todoDetail_btn_save" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

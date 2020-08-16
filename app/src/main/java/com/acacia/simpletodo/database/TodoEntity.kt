@@ -12,7 +12,7 @@ data class TodoEntity @JvmOverloads constructor(
     @ColumnInfo(name = "completed") var isCompleted: Boolean = false,
     @ColumnInfo(name = "date") var date: String = "",
     @ColumnInfo(name = "notiDate") var notiDate: String = "",
-    @PrimaryKey @ColumnInfo(name = "entryid") var id: String = UUID.randomUUID().toString()
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "entryid") var id: Int = 0
 ) {
 
     val titleForList: String

@@ -25,7 +25,6 @@
         tools:layout="@layout/fragment_todo_detail">
         <argument
             android:name="todoId"
-            app:argType="string"
-            app:nullable="true"/>
+            app:argType="integer" />
     </fragment>
 </navigation>

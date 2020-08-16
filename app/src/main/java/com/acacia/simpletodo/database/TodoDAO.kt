@@ -23,7 +23,7 @@ interface TodoDAO {
      * @return the task with taskId.
      */
     @Query("SELECT * FROM todoList WHERE entryid = :taskId")
-    suspend fun getTaskById(taskId: String): TodoEntity?
+    suspend fun getTaskById(taskId: Int): TodoEntity?
 
 
     @Query("SELECT * FROM todoList WHERE date = :date")
@@ -35,7 +35,7 @@ interface TodoDAO {
      * @param task the task to be inserted.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTask(task: TodoEntity)
+    suspend fun insertTask(task: TodoEntity): Long
 
     /**
      * Update a task.
@@ -53,7 +53,7 @@ interface TodoDAO {
      * @param completed status to be updated
      */
     @Query("UPDATE todoList SET completed = :completed WHERE entryid = :taskId")
-    suspend fun updateCompleted(taskId: String, completed: Boolean)
+    suspend fun updateCompleted(taskId: Int, completed: Boolean)
 
     /**
      * Delete a task by id.
@@ -61,7 +61,7 @@ interface TodoDAO {
      * @return the number of tasks deleted. This should always be 1.
      */
     @Query("DELETE FROM todoList WHERE entryid = :taskId")
-    suspend fun deleteTaskById(taskId: String): Int
+    suspend fun deleteTaskById(taskId: Int): Int
 
     /**
      * Delete all tasks.

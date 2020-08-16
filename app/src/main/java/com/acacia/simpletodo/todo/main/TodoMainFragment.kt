@@ -64,14 +64,14 @@ class TodoMainFragment : Fragment() {
 
 
         todoMainFm_fbtn_addTodo.setOnClickListener {
-            openTodoDetail(null)
+            openTodoDetail(-1)
         }
 //        binding.todoMainFmTabs.addTab(binding.todoMainFmTabs.newTab().setText("31\n월"))
 //        binding.todoMainFmTabs.addTab(binding.todoMainFmTabs.newTab().setText("31\n월"))
 //        binding.todoMainFmTabs.addTab(binding.todoMainFmTabs.newTab().setText("31\n월"))
     }
 
-    fun openTodoDetail(todoId: String?) {
+    fun openTodoDetail(todoId: Int) {
         val action =
             TodoMainFragmentDirections.actionTodoMainFragmentToTodoDetailFragment2(
                 todoId

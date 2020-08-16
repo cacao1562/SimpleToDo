@@ -22,14 +22,16 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
     private val _items = MutableLiveData<List<TodoEntity>>().apply { value = emptyList() }
     val items: LiveData<List<TodoEntity>> = _items
 
-    private val _todoId = MutableLiveData<String>()
-    val todoId: LiveData<String> = _todoId
+    private val _todoId = MutableLiveData<Int>()
+    val todoId: LiveData<Int> = _todoId
 
     fun getTodoList(index: Int) {
         viewModelScope.launch {
 //            _items.value = todoRepository.getTodoList()
             val date = getStringDate(index)
-            _items.value = todoRepository.getTodoByDate(date)
+            todoRepository.getTodoByDate(date)?.let {
+                _items.value = it
+            }
         }
     }
 
@@ -48,7 +50,7 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
         }
     }
 
-    fun openTodoDetail(todoId: String) {
+    fun openTodoDetail(todoId: Int) {
         _todoId.value = todoId
     }
 }

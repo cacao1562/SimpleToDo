@@ -1,24 +1,27 @@
 package com.acacia.simpletodo.todo.detail
 
-import android.icu.util.Calendar
+import android.app.AlarmManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.acacia.simpletodo.todo.datedialog.DatePickerDialog
 import com.acacia.simpletodo.R
 import com.acacia.simpletodo.TodoApplication
 import com.acacia.simpletodo.databinding.FragmentTodoDetailBinding
 import com.acacia.simpletodo.di.TodoComponent
-import com.acacia.simpletodo.utils.getCalendarList
+import com.acacia.simpletodo.utils.getAlarmManager
+import com.acacia.simpletodo.utils.getPendingIntent
 import com.acacia.simpletodo.viewmodel.TodoDetailViewModel
 import javax.inject.Inject
+import kotlin.math.abs
 
 class TodoDetailFragment : Fragment(),
     DatePickerDialog.OnDateSelectedListener {
@@ -57,14 +60,6 @@ class TodoDetailFragment : Fragment(),
 
         viewModel.loadTodo(args.todoId)
 
-        binding.todoDetailBtnDatePicker.setOnClickListener {
-            val dialog = DatePickerDialog(
-                viewModel.selectedCalendar,
-                this
-            )
-            dialog.show(activity?.supportFragmentManager!!, dialog.tag)
-        }
-
         binding.todoDetailRadioGroup.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId) {
                 R.id.todoDetail_radio_01 -> { viewModel.setSelectedDay(0) }
@@ -91,8 +86,32 @@ class TodoDetailFragment : Fragment(),
             }
         }
 
+        viewModel.isUpdated.observe(viewLifecycleOwner, Observer { isUpdated ->
+            if (isUpdated) {
+                setAlarm()
+                findNavController().popBackStack()
+            }
+        })
+
     }
 
+    /**
+     * 알림 등록
+     */
+    private fun setAlarm() {
+
+        if (viewModel.isChecked.value == false) return
+
+        val alarmManager = getAlarmManager()
+        val pendingIntent = getPendingIntent(viewModel.taskId,
+                                       viewModel.title.value ?: "",
+                                       viewModel.description.value ?: "")
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, viewModel.selectedCalendar.timeInMillis, pendingIntent)
+    }
+
+    /**
+     * DateDialog에서 설정한 알림 시간 넘겨 받음
+     */
     override fun onResult(cal: java.util.Calendar) {
         viewModel.setNotiView(cal)
         Log.d("ddd", "onResult = $cal")

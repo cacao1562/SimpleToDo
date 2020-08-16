@@ -23,13 +23,18 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDAO) {
             }
         }
 
-    suspend fun insertTodo(todo: TodoEntity) {
+    suspend fun insertTodo(todo: TodoEntity) =
         withContext(ioDispatcher) {
-            todoDao.insertTask(todo)
+            return@withContext try {
+                todoDao.insertTask(todo)
+            }catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
         }
-    }
 
-    suspend fun getTodoById(id: String) =
+
+    suspend fun getTodoById(id: Int) =
         withContext(ioDispatcher) {
             return@withContext try {
                 todoDao.getTaskById(id)

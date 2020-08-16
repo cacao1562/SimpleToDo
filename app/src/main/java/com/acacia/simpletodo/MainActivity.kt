@@ -2,6 +2,7 @@ package com.acacia.simpletodo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -36,6 +37,8 @@ class MainActivity : AppCompatActivity() {
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
         setContentView(binding.root)
+
+//        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
 }
