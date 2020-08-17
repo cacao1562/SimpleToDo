@@ -80,10 +80,22 @@ fun getStringDate(index: Int): String {
     return sdf.format(time)
 }
 
-fun getStringNotiTime(cal: Calendar): String {
+fun getCalendarToString(cal: Calendar): String {
     val time = cal.time
     val sdf = SimpleDateFormat("yyyyMMddHHmm", Locale.KOREA)
     return sdf.format(time)
+}
+
+fun getStringToCalendar(str: String): Calendar? {
+    val sdf = SimpleDateFormat("yyyyMMddHHmm", Locale.KOREA)
+    val date = sdf.parse(str)
+    date?.let {
+        val cal = Calendar.getInstance()
+        cal.time = it
+        return cal
+    } ?: run {
+        return null
+    }
 }
 
 fun getDatePosition(savedDate: String): Int {
@@ -93,18 +105,4 @@ fun getDatePosition(savedDate: String): Int {
         }
     }
     return 0
-}
-
-fun Fragment.getAlarmManager(): AlarmManager {
-    return requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-}
-
-fun Fragment.getPendingIntent(notiId: Int, title: String, description: String = ""): PendingIntent {
-    val intent = Intent(requireContext(), AlarmReceiver::class.java)
-    intent.putExtra(AlarmReceiver.NOTIFICATION_ID, notiId)
-    intent.putExtra(AlarmReceiver.TITLE, title)
-    intent.putExtra(AlarmReceiver.DESCRIPTION, description)
-    return PendingIntent.getBroadcast(
-                         requireContext(), notiId, intent,
-                         PendingIntent.FLAG_UPDATE_CURRENT)
 }

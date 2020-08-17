@@ -17,14 +17,16 @@ import com.acacia.simpletodo.R
 import com.acacia.simpletodo.TodoApplication
 import com.acacia.simpletodo.databinding.FragmentTodoDetailBinding
 import com.acacia.simpletodo.di.TodoComponent
+import com.acacia.simpletodo.todo.dialog.SaveDialog
 import com.acacia.simpletodo.utils.getAlarmManager
 import com.acacia.simpletodo.utils.getPendingIntent
 import com.acacia.simpletodo.viewmodel.TodoDetailViewModel
+import java.util.*
 import javax.inject.Inject
-import kotlin.math.abs
 
 class TodoDetailFragment : Fragment(),
-    DatePickerDialog.OnDateSelectedListener {
+    DatePickerDialog.OnDateSelectedListener,
+    SaveDialog.OnSaveListener{
 
     private val appComponent: TodoComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         (activity?.application as TodoApplication).appComponent
@@ -78,6 +80,7 @@ class TodoDetailFragment : Fragment(),
 
         binding.todoDetailNotiLinear.setOnClickListener {
             if (viewModel.isChecked.value!!) {
+
                 val dialog = DatePickerDialog(
                     viewModel.selectedCalendar,
                     this
@@ -88,8 +91,15 @@ class TodoDetailFragment : Fragment(),
 
         viewModel.isUpdated.observe(viewLifecycleOwner, Observer { isUpdated ->
             if (isUpdated) {
-                setAlarm()
+                registerAlarm()
                 findNavController().popBackStack()
+            }
+        })
+
+        viewModel.isChecked.observe(viewLifecycleOwner, Observer {
+            binding.todoDetailSwitch.isChecked = it
+            if (it == false) {
+                cancleAlarm()
             }
         })
 
@@ -98,15 +108,23 @@ class TodoDetailFragment : Fragment(),
     /**
      * 알림 등록
      */
-    private fun setAlarm() {
+    private fun registerAlarm() {
 
         if (viewModel.isChecked.value == false) return
 
         val alarmManager = getAlarmManager()
         val pendingIntent = getPendingIntent(viewModel.taskId,
-                                       viewModel.title.value ?: "",
+                                       viewModel.todoTitle.value ?: "",
                                        viewModel.description.value ?: "")
+
+        viewModel.selectedCalendar.set(Calendar.SECOND, 10)
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, viewModel.selectedCalendar.timeInMillis, pendingIntent)
+    }
+
+    private fun cancleAlarm() {
+        val alarmManager = getAlarmManager()
+        val pendingIntent = getPendingIntent(viewModel.taskId, "", "")
+        alarmManager.cancel(pendingIntent)
     }
 
     /**
@@ -116,4 +134,23 @@ class TodoDetailFragment : Fragment(),
         viewModel.setNotiView(cal)
         Log.d("ddd", "onResult = $cal")
     }
+
+    override fun onSaved(isSaved: Boolean) {
+        if (isSaved) {
+            viewModel.updateTodo()
+        }else {
+            findNavController().popBackStack()
+        }
+    }
+
+    fun onBackPressed(): Boolean {
+        if (viewModel.isModifyTodo() == false) {
+            // show alert
+            SaveDialog(requireContext(), this).show()
+            return false
+        }
+        return true
+    }
+
+
 }

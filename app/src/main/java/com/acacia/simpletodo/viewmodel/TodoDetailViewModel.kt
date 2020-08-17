@@ -17,7 +17,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
 
 
     // Two-way databinding, exposing MutableLiveData
-    val title = MutableLiveData<String>()
+    val todoTitle = MutableLiveData<String>()
 
     // Two-way databinding, exposing MutableLiveData
     val description = MutableLiveData<String>()
@@ -42,8 +42,11 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
     val notiDate = MutableLiveData<String>()
     var notiTime = MutableLiveData<String>()
 
+    var todoEntity = MutableLiveData<TodoEntity>()
+
     // Noti Date view switch
     val isChecked = MutableLiveData<Boolean>(false)
+    val isInitChecked = MutableLiveData<Boolean>(false)
 
     val isUpdated = MutableLiveData<Boolean>(false)
 
@@ -56,10 +59,20 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
 //                _task.value = todoRepository.getTodoById(id)
                 val todo = todoRepository.getTodoById(id)
                 todo?.let {
-                    title.value = todo.title
+                    todoEntity.value = todo
+                    todoTitle.value = todo.title
                     description.value = todo.description
                     _selectedDay.value = getDatePosition(todo.date)
-                    isChecked.value = !todo.notiDate.isNullOrEmpty()
+                    isInitChecked.value = !todo.notiDate.isNullOrEmpty()
+                    if (todo.notiDate.isEmpty()) {
+                        isChecked.value = false
+                    }else {
+                        isChecked.value = true
+                        val cal = getStringToCalendar(todo.notiDate)
+                        cal?.let {
+                            setNotiView(it)
+                        }
+                    }
                 }
             }
         }
@@ -90,7 +103,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
 
     fun updateTodo() {
 
-        val title = title.value
+        val title = todoTitle.value
 
         if (title.isNullOrEmpty()) {
             ToastHelper.showToast("제목을 입력해 주세요..")
@@ -102,16 +115,30 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
         var notiTime = ""
 
         if (isChecked.value!!) {
-            if (selectedCalendar.before(Calendar.getInstance())) {
-                ToastHelper.showToast("알림 시간을 현재 시간 이후로 설정해주세요.")
-                return
-            } else {
-                notiTime = getStringNotiTime(selectedCalendar)
+            selectedCalendar?.let {
+                if (it.before(Calendar.getInstance())) {
+                    ToastHelper.showToast("알림 시간을 현재 시간 이후로 설정해주세요.")
+                    return
+                } else {
+                    notiTime = getCalendarToString(it)
+                }
             }
         }
 
-        val todo = TodoEntity(title = title, description = des ?: "", date = date, notiDate = notiTime)
-        update(todo)
+        if (taskId == -1) {
+            val todo =
+                TodoEntity(title = title, description = des ?: "", date = date, notiDate = notiTime)
+            update(todo)
+        } else {
+            val todo = TodoEntity(
+                title = title,
+                description = des ?: "",
+                id = taskId,
+                date = date,
+                notiDate = notiTime
+            )
+            update(todo)
+        }
 
     }
 
@@ -135,7 +162,10 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
 
     fun setSelectedDay(index: Int) {
         _selectedDay.value = index
-        selectedCalendar = getCalendarList()[index]
+        val cal = Calendar.getInstance().apply {
+            add(Calendar.DATE, index)
+        }
+        selectedCalendar = cal
     }
 
     fun setNotiView(cal: Calendar) {
@@ -151,5 +181,27 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
         val min = cal.get(Calendar.MINUTE)
 
         notiTime.value = "${hour}시 ${min}분"
+    }
+
+    fun isModifyTodo(): Boolean {
+
+        if (taskId == -1) return true
+
+        Log.d("hhh", "title = ${todoEntity.value?.title} == ${todoTitle.value}")
+        Log.d("hhh", "description = ${todoEntity.value?.description} == ${description.value}")
+        Log.d("hhh", "date = ${todoEntity.value?.date} == ${getStringDate(_selectedDay.value!!)}")
+        Log.d("hhh", "notiDate = ${todoEntity.value?.notiDate} == ${getCalendarToString(selectedCalendar)}")
+        return todoEntity.value?.title == todoTitle.value &&
+               todoEntity.value?.description == description.value &&
+               todoEntity.value?.date == getStringDate(_selectedDay.value!!) &&
+               isModifyNoti()
+    }
+
+    private fun isModifyNoti(): Boolean {
+        return if (todoEntity.value?.notiDate.isNullOrEmpty()) {
+            true
+        }else {
+            todoEntity.value?.notiDate == getCalendarToString(selectedCalendar) && isInitChecked.value == isChecked.value
+        }
     }
 }
