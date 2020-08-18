@@ -15,11 +15,21 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/detail_appbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorDetail"
+            app:elevation="0dp"
+            android:fitsSystemWindows="true"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:background="@android:color/white">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -27,7 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:src="@drawable/ic_launcher_foreground"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorDetail"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />

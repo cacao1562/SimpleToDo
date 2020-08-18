@@ -1,11 +1,14 @@
 package com.acacia.simpletodo.todo.detail
 
 import android.app.AlarmManager
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -56,6 +59,8 @@ class TodoDetailFragment : Fragment(),
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        requireActivity().window.statusBarColor = Color.TRANSPARENT
 
         binding.lifecycleOwner = this
         binding.viewmodel = viewModel
