@@ -59,7 +59,6 @@ class TodoListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        Log.d("ung", "list fm onActivityCreated")
         binding.lifecycleOwner = this
         binding.viewmodel = viewModel
 

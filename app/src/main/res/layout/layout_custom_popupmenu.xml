@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_savedialog_border"
+    android:layout_gravity="end">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/layout_custom_tv_delete"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:padding="@dimen/default_margin"
+        android:text="삭제"
+        android:textAlignment="center"
+        android:background="@drawable/ripple_round"/>
+
+</LinearLayout>

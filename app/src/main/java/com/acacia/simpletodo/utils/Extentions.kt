@@ -26,3 +26,9 @@ fun Context.getDeviceWidth(): Int {
 }
 
 fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
+
+fun Fragment.cancleAlarm(todoId: Int) {
+    val alarmManager = getAlarmManager()
+    val pendingIntent = getPendingIntent(todoId, "", "")
+    alarmManager.cancel(pendingIntent)
+}

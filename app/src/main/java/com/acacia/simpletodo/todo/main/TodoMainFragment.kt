@@ -13,6 +13,7 @@ import com.acacia.simpletodo.R
 import com.acacia.simpletodo.todo.list.TodoListFragment
 import com.acacia.simpletodo.databinding.FragmentTodoMainBinding
 import com.acacia.simpletodo.utils.getDate
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_todo_main.*
 
@@ -66,7 +67,6 @@ class TodoMainFragment : Fragment() {
 
         TabLayoutMediator(binding.todoMainFmTabs, binding.todoMainFmViewpager) { tab, position ->
             tab.text = getDate(position)
-            tab.contentDescription
         }.attach()
 
         binding.todoMainFmTabs.setTabTextColors(Color.WHITE, Color.GREEN)
@@ -74,6 +74,21 @@ class TodoMainFragment : Fragment() {
         todoMainFm_fbtn_addTodo.setOnClickListener {
             openTodoDetail(-1)
         }
+
+        binding.todoMainFmAppbarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
+            override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+
+                if (verticalOffset == 0) {
+                    binding.todoMainFmFbtnAddTodo.show()
+                }else if (-verticalOffset == binding.todoMainFmAppbarLayout.totalScrollRange) {
+                    binding.todoMainFmFbtnAddTodo.hide()
+                }
+            }
+        })
+
+        // viewpager2 swipe enable
+//        binding.todoMainFmViewpager.isUserInputEnabled = false
+
 //        binding.todoMainFmTabs.addTab(binding.todoMainFmTabs.newTab().setText("31\n월"))
 //        binding.todoMainFmTabs.addTab(binding.todoMainFmTabs.newTab().setText("31\n월"))
 //        binding.todoMainFmTabs.addTab(binding.todoMainFmTabs.newTab().setText("31\n월"))
@@ -86,6 +101,5 @@ class TodoMainFragment : Fragment() {
             )
         findNavController().navigate(action)
     }
-
 
 }

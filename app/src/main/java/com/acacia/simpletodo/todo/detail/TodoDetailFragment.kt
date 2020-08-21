@@ -21,6 +21,7 @@ import com.acacia.simpletodo.TodoApplication
 import com.acacia.simpletodo.databinding.FragmentTodoDetailBinding
 import com.acacia.simpletodo.di.TodoComponent
 import com.acacia.simpletodo.todo.dialog.SaveDialog
+import com.acacia.simpletodo.utils.cancleAlarm
 import com.acacia.simpletodo.utils.getAlarmManager
 import com.acacia.simpletodo.utils.getPendingIntent
 import com.acacia.simpletodo.viewmodel.TodoDetailViewModel
@@ -104,7 +105,7 @@ class TodoDetailFragment : Fragment(),
         viewModel.isChecked.observe(viewLifecycleOwner, Observer {
             binding.todoDetailSwitch.isChecked = it
             if (it == false) {
-                cancleAlarm()
+                cancleAlarm(viewModel.taskId)
             }
         })
 
@@ -126,11 +127,7 @@ class TodoDetailFragment : Fragment(),
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, viewModel.selectedCalendar.timeInMillis, pendingIntent)
     }
 
-    private fun cancleAlarm() {
-        val alarmManager = getAlarmManager()
-        val pendingIntent = getPendingIntent(viewModel.taskId, "", "")
-        alarmManager.cancel(pendingIntent)
-    }
+
 
     /**
      * DateDialog에서 설정한 알림 시간 넘겨 받음

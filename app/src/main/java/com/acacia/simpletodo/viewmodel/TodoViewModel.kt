@@ -1,14 +1,26 @@
 package com.acacia.simpletodo.viewmodel
 
+import android.content.Context
+import android.graphics.drawable.BitmapDrawable
+import android.util.DisplayMetrics
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.PopupWindow
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.acacia.simpletodo.database.TodoEntity
 import com.acacia.simpletodo.repository.TodoRepository
+import com.acacia.simpletodo.utils.dpToPx
+import com.acacia.simpletodo.utils.getDeviceWidth
 import com.acacia.simpletodo.utils.getStringDate
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 class TodoViewModel @Inject constructor(private val todoRepository: TodoRepository): ViewModel() {
 
@@ -25,9 +37,11 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
     private val _todoId = MutableLiveData<Int>()
     val todoId: LiveData<Int> = _todoId
 
+    private var initIndex = -1
+
     fun getTodoList(index: Int) {
+        initIndex = index
         viewModelScope.launch {
-//            _items.value = todoRepository.getTodoList()
             val date = getStringDate(index)
             todoRepository.getTodoByDate(date)?.let {
                 _items.value = it
@@ -35,22 +49,58 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
         }
     }
 
-    fun insertTodo() {
-        viewModelScope.launch {
-
-            val currentTitle = title.value
-            val currentDescription = description.value
-
-            if (currentTitle.isNullOrEmpty()) {
-                return@launch
-            }
-            todoRepository.insertTodo(TodoEntity(currentTitle, currentDescription ?: ""))
-
-//            getTodoList()
-        }
-    }
-
     fun openTodoDetail(todoId: Int) {
         _todoId.value = todoId
     }
+
+    fun showPopup(v: View, todoId: Int) {
+
+        val window = IntArray(2)
+        val screen = IntArray(2)
+
+        v.getLocationInWindow(window)
+        v.getLocationOnScreen(screen)
+
+        val displayMetrics: DisplayMetrics = v.context.resources.displayMetrics
+
+        /**
+         * 0.9 임의로 정한 값, 리스트 마지막 아이템에 팝업 윈도우가 안보여 클릭한 뷰의 윈도우 y값을 체크해서 위치 조정
+         */
+        val height = displayMetrics.heightPixels * 0.9
+
+        val li =
+            v.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView = li.inflate(com.acacia.simpletodo.R.layout.layout_custom_popupmenu, null)
+        val textview = popupView.findViewById<AppCompatTextView>(com.acacia.simpletodo.R.id.layout_custom_tv_delete)
+
+
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+//        popupWindow.setBackgroundDrawable(BitmapDrawable())
+        popupWindow.isOutsideTouchable = true
+        popupWindow.setOnDismissListener(PopupWindow.OnDismissListener {
+            //TODO do sth here on dismiss
+        })
+
+        textview.setOnClickListener {
+            popupWindow.dismiss()
+
+            viewModelScope.launch {
+                todoRepository.deleteTodoById(todoId)
+                getTodoList(initIndex)
+//                isDeleted.value = true
+            }
+        }
+
+        if (window[1] > height) {
+            popupWindow.showAsDropDown(v, v.context.getDeviceWidth(), -(80.dpToPx(v.context)))
+        }else {
+            popupWindow.showAsDropDown(v, v.context.getDeviceWidth(), -(40.dpToPx(v.context)))
+        }
+//        popupWindow.showAtLocation(v, Gravity.RIGHT, 0, 0)
+    }
+
 }

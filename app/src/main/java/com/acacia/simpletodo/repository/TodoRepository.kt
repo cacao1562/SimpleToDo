@@ -52,4 +52,12 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDAO) {
             }
         }
 
+    suspend fun deleteTodoById(id: Int) =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                todoDao.deleteTaskById(id)
+            }catch (e: Exception) {
+                -1
+            }
+        }
 }

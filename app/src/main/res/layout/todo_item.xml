@@ -5,6 +5,7 @@
 
     <data>
 
+        <import type="android.view.View"/>
         <import type="android.widget.CompoundButton" />
 
         <variable
@@ -18,30 +19,31 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:background="@color/colorDetail"
         android:onClick="@{() -> viewmodel.openTodoDetail(todo.id)}">
-        <!--        android:onClick="@{() -> viewmodel.openTask(task.id)}"-->
 
         <CheckBox
             android:id="@+id/complete"
+            android:paddingEnd="@dimen/default_margin"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical" />
         <!--        android:onClick="@{(view) -> viewmodel.completeTask(task, ((CompoundButton)view).isChecked())}"-->
         <!--        android:checked="@{task.completed}"-->
+<!--        android:visibility="@{viewmodel.isDeleteMode ? View.VISIBLE : View.GONE}"-->
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/todoItem_tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:text="@{todo.titleForList}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 app:completedTask="@{todo.completed}" />
@@ -50,12 +52,19 @@
                 android:id="@+id/todoItem_tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:text="@{todo.description}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 app:completedTask="@{todo.completed}" />
 
         </LinearLayout>
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/todoItem_iv_more"
+            android:onClick="@{(v) -> viewmodel.showPopup(v, todo.id)}"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_baseline_more_vert_24"
+            android:paddingStart="@dimen/default_margin"
+            android:paddingEnd="@dimen/default_margin" />
     </LinearLayout>
 </layout>
