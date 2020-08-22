@@ -4,11 +4,13 @@ import android.graphics.Paint
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.acacia.simpletodo.database.TodoEntity
 import com.acacia.simpletodo.todo.datedialog.DatePickerAdapter
 import com.acacia.simpletodo.todo.list.TodoAdapter
+import com.acacia.simpletodo.viewmodel.TodoViewModel
 
 object MainBindings {
 
@@ -42,6 +44,15 @@ object MainBindings {
         layoutParams?.let {
             it.weight = weight
             view.layoutParams = it
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("onChecked_vm", "onChecked_id")
+    fun setOnCheckChange(view: AppCompatCheckBox, viewModel: TodoViewModel, todoId: Int) {
+//        view.setOnCheckedChangeListener(null)
+        view.setOnCheckedChangeListener { buttonView, isChecked ->
+            viewModel.updateCompleted(todoId, isChecked)
         }
     }
 }

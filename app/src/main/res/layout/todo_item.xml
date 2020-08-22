@@ -25,14 +25,13 @@
         android:onClick="@{() -> viewmodel.openTodoDetail(todo.id)}">
 
         <CheckBox
-            android:id="@+id/complete"
+            android:id="@+id/todoItem_checkbox"
             android:paddingEnd="@dimen/default_margin"
+            android:checked="@{todo.completed}"
+            android:onClick="@{(view) -> viewmodel.updateCompleted(todo.id, ((CompoundButton)view).isChecked())}"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical" />
-        <!--        android:onClick="@{(view) -> viewmodel.completeTask(task, ((CompoundButton)view).isChecked())}"-->
-        <!--        android:checked="@{task.completed}"-->
-<!--        android:visibility="@{viewmodel.isDeleteMode ? View.VISIBLE : View.GONE}"-->
 
         <LinearLayout
             android:layout_width="wrap_content"

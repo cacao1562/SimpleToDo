@@ -103,4 +103,11 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
 //        popupWindow.showAtLocation(v, Gravity.RIGHT, 0, 0)
     }
 
+    fun updateCompleted(todoId: Int, isChecked: Boolean) {
+        Log.d("ppp", "updateCompleted  id = $todoId , isChecked = $isChecked")
+        viewModelScope.launch {
+            todoRepository.updateCompleted(todoId, isChecked)
+            getTodoList(initIndex)
+        }
+    }
 }

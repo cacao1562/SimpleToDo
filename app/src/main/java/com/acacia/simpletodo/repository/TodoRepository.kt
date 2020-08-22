@@ -39,6 +39,7 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDAO) {
             return@withContext try {
                 todoDao.getTaskById(id)
             }catch (e: Exception) {
+                e.printStackTrace()
                 null
             }
         }
@@ -48,6 +49,7 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDAO) {
             return@withContext try {
                 todoDao.getTaskByDate(date)
             }catch (e: Exception) {
+                e.printStackTrace()
                 null
             }
         }
@@ -57,7 +59,17 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDAO) {
             return@withContext try {
                 todoDao.deleteTaskById(id)
             }catch (e: Exception) {
+                e.printStackTrace()
                 -1
+            }
+        }
+
+    suspend fun updateCompleted(id: Int, completed: Boolean) =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                todoDao.updateCompleted(id, completed)
+            }catch (e: Exception) {
+                e.printStackTrace()
             }
         }
 }
