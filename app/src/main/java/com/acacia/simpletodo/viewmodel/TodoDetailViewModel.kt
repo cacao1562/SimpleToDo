@@ -50,6 +50,8 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
 
     val isUpdated = MutableLiveData<Boolean>(false)
 
+    private var initNotiDate = ""
+
     fun loadTodo(id: Int) {
 
         taskId = id
@@ -68,7 +70,9 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
                         isChecked.value = false
                     }else {
                         isChecked.value = true
-                        val cal = getStringToCalendar(todo.notiDate)
+                        val date =  todo.notiDate
+                        initNotiDate = date
+                        val cal = getStringToCalendar(date)
                         cal?.let {
                             setNotiView(it)
                         }
@@ -201,7 +205,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
         return if (todoEntity.value?.notiDate.isNullOrEmpty()) {
             true
         }else {
-            todoEntity.value?.notiDate == getCalendarToString(selectedCalendar) && isInitChecked.value == isChecked.value
+            (todoEntity.value?.notiDate == initNotiDate && isInitChecked.value == isChecked.value)
         }
     }
 }

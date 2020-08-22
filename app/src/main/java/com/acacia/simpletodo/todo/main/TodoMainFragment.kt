@@ -8,18 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.acacia.simpletodo.R
+import com.acacia.simpletodo.TodoApplication
 import com.acacia.simpletodo.todo.list.TodoListFragment
 import com.acacia.simpletodo.databinding.FragmentTodoMainBinding
+import com.acacia.simpletodo.di.TodoComponent
 import com.acacia.simpletodo.utils.getDate
+import com.acacia.simpletodo.viewmodel.TodoMainViewModel
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_todo_main.*
+import javax.inject.Inject
 
 class TodoMainFragment : Fragment() {
 
     private lateinit var binding: FragmentTodoMainBinding
+
+    private val viewModel by viewModels<TodoMainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +45,8 @@ class TodoMainFragment : Fragment() {
         requireActivity().window.statusBarColor = Color.TRANSPARENT
 
         binding.lifecycleOwner = this
+        binding.viewmodel = viewModel
+        viewModel.initMonthBar()
         binding.todoMainFmViewpager.adapter =
             TodoViewPagerAdapter(
                 childFragmentManager, lifecycle,
