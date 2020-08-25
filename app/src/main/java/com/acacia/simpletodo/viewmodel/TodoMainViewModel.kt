@@ -3,6 +3,7 @@ package com.acacia.simpletodo.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acacia.simpletodo.utils.getCalendarList
+import com.acacia.simpletodo.utils.getDisplayDayWeek
 import java.util.*
 
 class TodoMainViewModel: ViewModel() {
@@ -14,6 +15,8 @@ class TodoMainViewModel: ViewModel() {
     // Month bar view textView text
     val monthTitle01 = MutableLiveData<String>()
     val monthTitle02 = MutableLiveData<String>()
+
+    val listNumber = MutableLiveData<Int>(0)
 
     fun initMonthBar() {
 
@@ -34,5 +37,13 @@ class TodoMainViewModel: ViewModel() {
             }
 
         }
+    }
+
+    fun replaceList(index: Int) {
+        listNumber.value = index
+    }
+
+    fun getTabDate(index: Int): String {
+        return getDisplayDayWeek(index)
     }
 }

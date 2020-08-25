@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/todoMainFragment">
+    app:startDestination="@id/todoNewMainFragment">
 
     <fragment
         android:id="@+id/todoMainFragment"
@@ -26,5 +26,18 @@
         <argument
             android:name="todoId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/todoNewMainFragment"
+        android:name="com.acacia.simpletodo.todo.main.TodoNewMainFragment"
+        android:label="TodoNewMainFragment"
+        tools:layout="@layout/fragment_todo_new_main">
+        <action
+            android:id="@+id/action_todoNewMainFragment_to_todoDetailFragment"
+            app:destination="@id/todoDetailFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
 </navigation>

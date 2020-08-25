@@ -22,6 +22,7 @@ import com.acacia.simpletodo.databinding.FragmentTodoDetailBinding
 import com.acacia.simpletodo.di.TodoComponent
 import com.acacia.simpletodo.todo.dialog.SaveDialog
 import com.acacia.simpletodo.utils.cancleAlarm
+import com.acacia.simpletodo.utils.dpToPx
 import com.acacia.simpletodo.utils.getAlarmManager
 import com.acacia.simpletodo.utils.getPendingIntent
 import com.acacia.simpletodo.viewmodel.TodoDetailViewModel
@@ -63,6 +64,23 @@ class TodoDetailFragment : Fragment(),
 
         requireActivity().window.statusBarColor = Color.TRANSPARENT
 
+        val h = requireActivity().window.decorView.height
+        val w = requireActivity().window.decorView.width
+
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+
+        if (resourceId > 0) {
+
+            binding.detailAppbarLayout.layoutParams.height = resources.getDimensionPixelSize(resourceId) + 55.dpToPx(requireContext())
+
+            Log.d("uuu", "h = $h")
+            Log.d("uuu", "w = $w")
+            Log.d("uuu", "st = ${resources.getDimensionPixelSize(resourceId)}")
+            Log.d("uuu", "24 = ${24.dpToPx(requireContext())}")
+        }
+
+
+
         binding.lifecycleOwner = this
         binding.viewmodel = viewModel
 
@@ -95,6 +113,14 @@ class TodoDetailFragment : Fragment(),
             }
         }
 
+        binding.todoDetailBtnBack.setOnClickListener {
+            if (viewModel.isModifyTodo() == false) {
+                SaveDialog(requireContext(), this).show()
+            }else {
+                findNavController().popBackStack()
+            }
+        }
+
         viewModel.isUpdated.observe(viewLifecycleOwner, Observer { isUpdated ->
             if (isUpdated) {
                 registerAlarm()
@@ -105,7 +131,7 @@ class TodoDetailFragment : Fragment(),
         viewModel.isChecked.observe(viewLifecycleOwner, Observer {
             binding.todoDetailSwitch.isChecked = it
             if (it == false) {
-                cancleAlarm(viewModel.taskId)
+                cancleAlarm(viewModel.taskId.value!!)
             }
         })
 
@@ -119,7 +145,7 @@ class TodoDetailFragment : Fragment(),
         if (viewModel.isChecked.value == false) return
 
         val alarmManager = getAlarmManager()
-        val pendingIntent = getPendingIntent(viewModel.taskId,
+        val pendingIntent = getPendingIntent(viewModel.taskId.value!!,
                                        viewModel.todoTitle.value ?: "",
                                        viewModel.description.value ?: "")
 
@@ -132,7 +158,7 @@ class TodoDetailFragment : Fragment(),
     /**
      * DateDialog에서 설정한 알림 시간 넘겨 받음
      */
-    override fun onResult(cal: java.util.Calendar) {
+    override fun onResult(cal: Calendar) {
         viewModel.setNotiView(cal)
         Log.d("ddd", "onResult = $cal")
     }

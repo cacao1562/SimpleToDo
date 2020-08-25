@@ -21,12 +21,12 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal"
-        android:background="@color/colorDetail"
         android:onClick="@{() -> viewmodel.openTodoDetail(todo.id)}">
 
         <CheckBox
             android:id="@+id/todoItem_checkbox"
             android:paddingEnd="@dimen/default_margin"
+            android:layout_marginStart="10dp"
             android:checked="@{todo.completed}"
             android:onClick="@{(view) -> viewmodel.updateCompleted(todo.id, ((CompoundButton)view).isChecked())}"
             android:layout_width="wrap_content"
@@ -57,13 +57,6 @@
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/todoItem_iv_more"
-            android:onClick="@{(v) -> viewmodel.showPopup(v, todo.id)}"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_baseline_more_vert_24"
-            android:paddingStart="@dimen/default_margin"
-            android:paddingEnd="@dimen/default_margin" />
     </LinearLayout>
+
 </layout>

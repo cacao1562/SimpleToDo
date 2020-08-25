@@ -17,6 +17,8 @@ class TodoAdapter(private val viewModel: TodoViewModel) :
         TaskDiffCallback()
     ) {
 
+    fun getTodoId(pos: Int) = getItem(pos).id
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
 

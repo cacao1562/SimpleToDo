@@ -14,6 +14,7 @@ import com.acacia.simpletodo.TodoApplication
 import com.acacia.simpletodo.databinding.FragmentTodoListBinding
 import com.acacia.simpletodo.di.TodoComponent
 import com.acacia.simpletodo.todo.main.TodoMainFragment
+import com.acacia.simpletodo.todo.main.TodoNewMainFragment
 import com.acacia.simpletodo.viewmodel.TodoViewModel
 import javax.inject.Inject
 
@@ -68,6 +69,10 @@ class TodoListFragment : Fragment() {
             binding.todoListFmRvTodoList.setHasFixedSize(true)
             binding.todoListFmRvTodoList.adapter = listAdapter
         }
+        MySimpleSwipeHelper(requireContext(), binding.todoListFmRvTodoList, 280) {
+            val id = listAdapter.getTodoId(it)
+            viewModel.deleteTodod(id)
+        }
 
         arguments?.let {
             val index = it.getInt(TodoListFragment::class.java.simpleName)
@@ -78,6 +83,9 @@ class TodoListFragment : Fragment() {
             activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)?.let {
                 for (fragment in it.childFragmentManager.fragments) {
                     if (fragment is TodoMainFragment) {
+                        fragment.openTodoDetail(todoId)
+                    }
+                    if (fragment is TodoNewMainFragment) {
                         fragment.openTodoDetail(todoId)
                     }
                 }

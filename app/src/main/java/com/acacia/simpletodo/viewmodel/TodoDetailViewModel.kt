@@ -1,10 +1,14 @@
 package com.acacia.simpletodo.viewmodel
 
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.util.Log
+import android.view.View
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.acacia.simpletodo.R
 import com.acacia.simpletodo.database.TodoEntity
 import com.acacia.simpletodo.repository.TodoRepository
 import com.acacia.simpletodo.utils.*
@@ -34,7 +38,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
     val monthTitle01 = MutableLiveData<String>()
     val monthTitle02 = MutableLiveData<String>()
 
-    var taskId: Int = -1
+    var taskId = MutableLiveData<Int>(-1)
 
     lateinit var selectedCalendar: Calendar
 
@@ -46,17 +50,20 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
 
     // Noti Date view switch
     val isChecked = MutableLiveData<Boolean>(false)
-    val isInitChecked = MutableLiveData<Boolean>(false)
 
     val isUpdated = MutableLiveData<Boolean>(false)
 
+    private var isInitChecked = false
     private var initNotiDate = ""
+
+    var isEditMode = false
 
     fun loadTodo(id: Int) {
 
-        taskId = id
+        taskId.value = id
 
-        if (taskId != -1) {
+        if (taskId.value != -1) {
+            isEditMode = true
             viewModelScope.launch {
 //                _task.value = todoRepository.getTodoById(id)
                 val todo = todoRepository.getTodoById(id)
@@ -65,7 +72,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
                     todoTitle.value = todo.title
                     description.value = todo.description
                     _selectedDay.value = getDatePosition(todo.date)
-                    isInitChecked.value = !todo.notiDate.isNullOrEmpty()
+                    isInitChecked = !todo.notiDate.isNullOrEmpty()
                     if (todo.notiDate.isEmpty()) {
                         isChecked.value = false
                     }else {
@@ -129,7 +136,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
             }
         }
 
-        if (taskId == -1) {
+        if (taskId.value == -1) {
             val todo =
                 TodoEntity(title = title, description = des ?: "", date = date, notiDate = notiTime)
             update(todo)
@@ -137,7 +144,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
             val todo = TodoEntity(
                 title = title,
                 description = des ?: "",
-                id = taskId,
+                id = taskId.value!!,
                 date = date,
                 notiDate = notiTime
             )
@@ -149,9 +156,9 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
     private fun update(todo: TodoEntity) {
         viewModelScope.launch {
             val id = todoRepository.insertTodo(todo)
-            if (taskId == -1) {
+            if (taskId.value == -1) {
                 id?.let {
-                    taskId = it.toInt()
+                    taskId.value = it.toInt()
                 }
             }
             isUpdated.value = true
@@ -189,7 +196,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
 
     fun isModifyTodo(): Boolean {
 
-        if (taskId == -1) return true
+        if (taskId.value == -1) return true
 
         Log.d("hhh", "title = ${todoEntity.value?.title} == ${todoTitle.value}")
         Log.d("hhh", "description = ${todoEntity.value?.description} == ${description.value}")
@@ -205,7 +212,22 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
         return if (todoEntity.value?.notiDate.isNullOrEmpty()) {
             true
         }else {
-            (todoEntity.value?.notiDate == initNotiDate && isInitChecked.value == isChecked.value)
+            (todoEntity.value?.notiDate == initNotiDate && isInitChecked == isChecked.value)
         }
+    }
+
+
+
+    fun onClickEditSave(view: View) {
+
+        if (view is AppCompatImageButton) {
+            view.setImageResource(if (isEditMode) R.drawable.avd_anim_edit_save else R.drawable.avd_anim_save_edit )
+            val icon = view.drawable
+            isEditMode = !isEditMode
+            if (icon is AnimatedVectorDrawable) {
+                icon.start()
+            }
+        }
+
     }
 }

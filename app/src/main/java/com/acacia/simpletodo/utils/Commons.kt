@@ -10,7 +10,7 @@ import com.acacia.simpletodo.AlarmReceiver
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun getDate(pos: Int): String {
+fun getDisplayDayWeek(pos: Int): String {
     val today = Calendar.getInstance()
     today.add(Calendar.DATE, pos)
     val week = today.get(Calendar.DAY_OF_WEEK)
@@ -18,7 +18,7 @@ fun getDate(pos: Int): String {
     val hour = today.get(Calendar.HOUR_OF_DAY) // 24
     val min = today.get(Calendar.MINUTE)
 
-    return "${getWeek(week)}\n${day}"
+    return "${getWeek(week)} ${day}"
 }
 
 fun getAddDate(pos: Int): Calendar {

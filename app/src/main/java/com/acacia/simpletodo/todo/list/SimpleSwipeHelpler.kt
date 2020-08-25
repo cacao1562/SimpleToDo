@@ -59,51 +59,56 @@ class SimpleSwipeHelpler(private val buttonsActions: ItemTouchHelperListener) :
 //            setTouchListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 //        }
 
+        var transX = dX
+
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             if (buttonShowedState != ButtonsState.GONE) {
-                var dx = 0f
+                var transX = 0f
                 if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
-                    dx = Math.max(dX, buttonWidth)
+                    transX = Math.max(dX, buttonWidth)
                 }
                 if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
-                    dx = Math.min(dX, -buttonWidth)
+                    transX = Math.min(dX, -buttonWidth)
                 }
+                drawButtons(c, viewHolder)
+
 //                setTouchListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                super.onChildDraw(
-                    c,
-                    recyclerView,
-                    viewHolder,
-                    dx,
-                    dY,
-                    actionState,
-                    isCurrentlyActive
-                );
-            } else {
-                setTouchListener(
-                    c,
-                    recyclerView,
-                    viewHolder,
-                    dX,
-                    dY,
-                    actionState,
-                    isCurrentlyActive
-                );
+//                super.onChildDraw(
+//                    c,
+//                    recyclerView,
+//                    viewHolder,
+//                    dx,
+//                    dY,
+//                    actionState,f
+//                    isCurrentlyActive
+//                );
             }
-            if (buttonShowedState == ButtonsState.GONE) {
-                super.onChildDraw(
-                    c,
-                    recyclerView,
-                    viewHolder,
-                    dX,
-                    dY,
-                    actionState,
-                    isCurrentlyActive
-                );
-            }
+//            else {
+//                setTouchListener(
+//                    c,
+//                    recyclerView,
+//                    viewHolder,
+//                    dX,
+//                    dY,
+//                    actionState,
+//                    isCurrentlyActive
+//                );
+//            }
+//            if (buttonShowedState == ButtonsState.GONE) {
+//                super.onChildDraw(
+//                    c,
+//                    recyclerView,
+//                    viewHolder,
+//                    dX,
+//                    dY,
+//                    actionState,
+//                    isCurrentlyActive
+//                )
+//            }
         }
 
-//        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-        drawButtons(c, viewHolder)
+        super.onChildDraw(c, recyclerView, viewHolder, transX, dY, actionState, isCurrentlyActive)
+
     }
 
     private fun drawButtons(

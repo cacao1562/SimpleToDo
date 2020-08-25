@@ -37,7 +37,7 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
     private val _todoId = MutableLiveData<Int>()
     val todoId: LiveData<Int> = _todoId
 
-    private var initIndex = -1
+    var initIndex = 0
 
     fun getTodoList(index: Int) {
         initIndex = index
@@ -108,6 +108,14 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
         viewModelScope.launch {
             todoRepository.updateCompleted(todoId, isChecked)
             getTodoList(initIndex)
+        }
+    }
+
+    fun deleteTodod(todoId: Int) {
+        viewModelScope.launch {
+            todoRepository.deleteTodoById(todoId)
+            getTodoList(initIndex)
+//                isDeleted.value = true
         }
     }
 }

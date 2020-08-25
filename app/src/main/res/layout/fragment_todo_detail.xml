@@ -21,10 +21,38 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/detail_appbarLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorDetail"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
             app:elevation="0dp"
-            android:fitsSystemWindows="true"/>
+            android:fitsSystemWindows="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal"
+                android:background="@android:color/black">
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/todoDetail_btn_back"
+                    android:layout_width="55dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_baseline_arrow_back_ios_24"
+                    android:background="@drawable/ripple_oval" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/todoDetail_btn_EditSave"
+                    android:layout_width="55dp"
+                    android:layout_height="match_parent"
+                    android:onClick="@{(v) -> viewmodel.onClickEditSave(v)}"
+                    android:src="@{viewmodel.taskId == -1 ? @drawable/avd_anim_save_edit : @drawable/avd_anim_edit_save}"
+                    android:background="@drawable/ripple_oval" />
+
+            </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

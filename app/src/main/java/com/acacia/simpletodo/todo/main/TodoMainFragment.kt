@@ -1,27 +1,23 @@
 package com.acacia.simpletodo.todo.main
 
 import android.graphics.Color
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.acacia.simpletodo.R
-import com.acacia.simpletodo.TodoApplication
 import com.acacia.simpletodo.todo.list.TodoListFragment
 import com.acacia.simpletodo.databinding.FragmentTodoMainBinding
-import com.acacia.simpletodo.di.TodoComponent
-import com.acacia.simpletodo.utils.getDate
+import com.acacia.simpletodo.utils.getDisplayDayWeek
 import com.acacia.simpletodo.viewmodel.TodoMainViewModel
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_todo_main.*
-import javax.inject.Inject
 
 class TodoMainFragment : Fragment() {
 
@@ -76,7 +72,7 @@ class TodoMainFragment : Fragment() {
 //            }).attach()
 
         TabLayoutMediator(binding.todoMainFmTabs, binding.todoMainFmViewpager) { tab, position ->
-            tab.text = getDate(position)
+            tab.text = getDisplayDayWeek(position)
         }.attach()
 
         binding.todoMainFmTabs.setTabTextColors(Color.WHITE, Color.GREEN)
@@ -95,6 +91,14 @@ class TodoMainFragment : Fragment() {
                 }
             }
         })
+
+        binding.todoMainFmImgbutton.setOnClickListener {
+            binding.todoMainFmImgbutton.setImageResource(R.drawable.avd_anim_edit_save)
+            val dr = binding.todoMainFmImgbutton.drawable
+            if (dr is AnimatedVectorDrawable) {
+                dr.start()
+            }
+        }
 
         // viewpager2 swipe enable
 //        binding.todoMainFmViewpager.isUserInputEnabled = false
