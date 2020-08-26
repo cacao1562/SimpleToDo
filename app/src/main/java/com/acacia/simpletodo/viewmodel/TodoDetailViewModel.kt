@@ -11,10 +11,12 @@ import androidx.lifecycle.viewModelScope
 import com.acacia.simpletodo.R
 import com.acacia.simpletodo.database.TodoEntity
 import com.acacia.simpletodo.repository.TodoRepository
+import com.acacia.simpletodo.todo.detail.TodoDay
 import com.acacia.simpletodo.utils.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRepository) :
     ViewModel() {
@@ -29,6 +31,8 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
     // RadidoButton checked value
     private val _selectedDay = MutableLiveData<Int>(0)
     val selectedDay: LiveData<Int> = _selectedDay
+
+    var beforeSelectedDay = 0
 
     // Month bar view layout_weight
     val month01 = MutableLiveData<Float>(0f)

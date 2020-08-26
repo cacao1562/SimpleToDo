@@ -1,16 +1,19 @@
 package com.acacia.simpletodo
 
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.acacia.simpletodo.database.TodoEntity
 import com.acacia.simpletodo.todo.datedialog.DatePickerAdapter
 import com.acacia.simpletodo.todo.list.TodoAdapter
 import com.acacia.simpletodo.viewmodel.TodoViewModel
+
 
 object MainBindings {
 
@@ -44,6 +47,15 @@ object MainBindings {
         layoutParams?.let {
             it.weight = weight
             view.layoutParams = it
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:textStyle")
+    fun setTypeface(textView: AppCompatTextView, style: String?) {
+        when (style) {
+            "bold" -> textView.setTypeface(null, Typeface.BOLD)
+            else -> textView.setTypeface(null, Typeface.NORMAL)
         }
     }
 

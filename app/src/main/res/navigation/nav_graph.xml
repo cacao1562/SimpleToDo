@@ -33,11 +33,21 @@
         android:label="TodoNewMainFragment"
         tools:layout="@layout/fragment_todo_new_main">
         <action
-            android:id="@+id/action_todoNewMainFragment_to_todoDetailFragment"
-            app:destination="@id/todoDetailFragment"
+            android:id="@+id/action_todoNewMainFragment_to_todoNewDetailFragment"
+            app:destination="@id/todoNewDetailFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/todoNewDetailFragment"
+        android:name="com.acacia.simpletodo.todo.detail.TodoNewDetailFragment"
+        android:label="TodoNewDetailFragment"
+        tools:layout="@layout/fragment_todo_new_detail">
+        <argument
+            android:name="todoId"
+            app:argType="integer" />
     </fragment>
 </navigation>

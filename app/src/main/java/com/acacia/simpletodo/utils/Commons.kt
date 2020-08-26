@@ -7,8 +7,10 @@ import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.acacia.simpletodo.AlarmReceiver
+import com.acacia.simpletodo.todo.detail.TodoDay
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 fun getDisplayDayWeek(pos: Int): String {
     val today = Calendar.getInstance()
@@ -36,6 +38,17 @@ fun getDisplayDate(cal: Calendar): String {
     val week = cal.get(Calendar.DAY_OF_WEEK)
     val day = cal.get(Calendar.DATE)
     return "${getWeek(week)}\n${day}"
+}
+
+fun getTodoDay(): List<TodoDay> {
+    val list = getCalendarList()
+    val dayList = arrayListOf<TodoDay>()
+    for (cal in list) {
+        val week = cal.get(Calendar.DAY_OF_WEEK)
+        val day = cal.get(Calendar.DATE)
+        dayList.add(TodoDay(day.toString(), getWeek(week) + "요일"))
+    }
+    return dayList
 }
 
 fun getWeek(week: Int): String {

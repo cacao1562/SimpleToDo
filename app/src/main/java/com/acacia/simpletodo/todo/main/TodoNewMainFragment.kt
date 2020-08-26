@@ -51,7 +51,7 @@ class TodoNewMainFragment : Fragment() {
     }
 
     fun openTodoDetail(todoId: Int) {
-        val action = TodoNewMainFragmentDirections.actionTodoNewMainFragmentToTodoDetailFragment(todoId)
+        val action = TodoNewMainFragmentDirections.actionTodoNewMainFragmentToTodoNewDetailFragment(todoId)
         findNavController().navigate(action)
     }
 }
