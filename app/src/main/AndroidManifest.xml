@@ -21,7 +21,10 @@
         </activity>
 
         <receiver android:name=".AlarmReceiver"
-            android:exported="false">
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.NOTIFY" />
+            </intent-filter>
         </receiver>
 
     </application>

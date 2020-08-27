@@ -11,12 +11,10 @@ import androidx.lifecycle.viewModelScope
 import com.acacia.simpletodo.R
 import com.acacia.simpletodo.database.TodoEntity
 import com.acacia.simpletodo.repository.TodoRepository
-import com.acacia.simpletodo.todo.detail.TodoDay
 import com.acacia.simpletodo.utils.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRepository) :
     ViewModel() {
@@ -25,12 +23,17 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
     // Two-way databinding, exposing MutableLiveData
     val todoTitle = MutableLiveData<String>()
 
-    // Two-way databinding, exposing MutableLiveData
-    val description = MutableLiveData<String>()
+    val errorTitle = MutableLiveData<String>()
 
-    // RadidoButton checked value
-    private val _selectedDay = MutableLiveData<Int>(0)
-    val selectedDay: LiveData<Int> = _selectedDay
+    // Two-way databinding, exposing MutableLiveData
+    val todoDescription = MutableLiveData<String>()
+
+    var isCompleted = false
+    val isInitCompleted = MutableLiveData<Boolean>(false)
+
+    // 0 ~ 6 날짜 인덱스
+    private val _selectedDayIndex = MutableLiveData<Int>(0)
+    val selectedDayIndex: LiveData<Int> = _selectedDayIndex
 
     var beforeSelectedDay = 0
 
@@ -42,7 +45,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
     val monthTitle01 = MutableLiveData<String>()
     val monthTitle02 = MutableLiveData<String>()
 
-    var taskId = MutableLiveData<Int>(-1)
+    var todoId = MutableLiveData<Int>(-1)
 
     lateinit var selectedCalendar: Calendar
 
@@ -64,9 +67,10 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
 
     fun loadTodo(id: Int) {
 
-        taskId.value = id
+        todoId.value = id
+        setSelectedDay(_selectedDayIndex.value!!)
 
-        if (taskId.value != -1) {
+        if (todoId.value != -1) {
             isEditMode = true
             viewModelScope.launch {
 //                _task.value = todoRepository.getTodoById(id)
@@ -74,8 +78,10 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
                 todo?.let {
                     todoEntity.value = todo
                     todoTitle.value = todo.title
-                    description.value = todo.description
-                    _selectedDay.value = getDatePosition(todo.date)
+                    todoDescription.value = todo.description
+                    isInitCompleted.value = todo.isCompleted
+                    isCompleted = todo.isCompleted
+                    _selectedDayIndex.value = getDatePosition(todo.date)
                     isInitChecked = !todo.notiDate.isNullOrEmpty()
                     if (todo.notiDate.isEmpty()) {
                         isChecked.value = false
@@ -121,12 +127,13 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
         val title = todoTitle.value
 
         if (title.isNullOrEmpty()) {
+            errorTitle.value = "제목을 입력해 주세요"
             ToastHelper.showToast("제목을 입력해 주세요..")
             return
         }
 
-        val des = description.value
-        val date = getStringDate(_selectedDay.value!!)
+        val des = todoDescription.value
+        val date = getStringDate(_selectedDayIndex.value!!)
         var notiTime = ""
 
         if (isChecked.value!!) {
@@ -140,7 +147,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
             }
         }
 
-        if (taskId.value == -1) {
+        if (todoId.value == -1) {
             val todo =
                 TodoEntity(title = title, description = des ?: "", date = date, notiDate = notiTime)
             update(todo)
@@ -148,7 +155,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
             val todo = TodoEntity(
                 title = title,
                 description = des ?: "",
-                id = taskId.value!!,
+                id = todoId.value!!,
                 date = date,
                 notiDate = notiTime
             )
@@ -157,32 +164,51 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
 
     }
 
+    /**
+     * room 데이터베이스에 업데이트,
+     * 끝나면 알림등록하고 뒤로가기
+     */
     private fun update(todo: TodoEntity) {
         viewModelScope.launch {
             val id = todoRepository.insertTodo(todo)
-            if (taskId.value == -1) {
+            if (todoId.value == -1) {
                 id?.let {
-                    taskId.value = it.toInt()
+                    todoId.value = it.toInt()
                 }
             }
             isUpdated.value = true
         }
     }
 
+    // delete
     fun getRadioText(index: Int): String {
         val list = getCalendarList()
         return getDisplayDate(list[index])
     }
 
 
+    /**
+     * 날짜 선택 했을때, noti 설정에 날짜만 보이도록 세팅
+     */
     fun setSelectedDay(index: Int) {
-        _selectedDay.value = index
+        _selectedDayIndex.value = index
         val cal = Calendar.getInstance().apply {
+            // 오늘 날짜에서 0~6 선택한 날짜를 더 한다
             add(Calendar.DATE, index)
         }
         selectedCalendar = cal
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH)
+        val day = cal.get(Calendar.DATE)
+        val week = cal.get(Calendar.DAY_OF_WEEK)
+
+        notiDate.value = "${year}.${month + 1}.${day} (${getWeek(week)})"
     }
 
+    /**
+     * 진입했을때 이미 설정 되어있을때,
+     * DatePickerDialog 시간 콜백 받았을때
+     */
     fun setNotiView(cal: Calendar) {
         selectedCalendar = cal
         val year = cal.get(Calendar.YEAR)
@@ -190,7 +216,7 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
         val day = cal.get(Calendar.DATE)
         val week = cal.get(Calendar.DAY_OF_WEEK)
 
-        notiDate.value = "${year}.${month + 1}.${day} (${getWeek(week)}요일)"
+        notiDate.value = "${year}.${month + 1}.${day} (${getWeek(week)})"
 
         val hour = cal.get(Calendar.HOUR_OF_DAY)
         val min = cal.get(Calendar.MINUTE)
@@ -198,17 +224,20 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
         notiTime.value = "${hour}시 ${min}분"
     }
 
+    /**
+     * 이미 추가했던 todo를 수정했는지 체크
+     */
     fun isModifyTodo(): Boolean {
 
-        if (taskId.value == -1) return true
+        if (todoId.value == -1) return true
 
         Log.d("hhh", "title = ${todoEntity.value?.title} == ${todoTitle.value}")
-        Log.d("hhh", "description = ${todoEntity.value?.description} == ${description.value}")
-        Log.d("hhh", "date = ${todoEntity.value?.date} == ${getStringDate(_selectedDay.value!!)}")
+        Log.d("hhh", "description = ${todoEntity.value?.description} == ${todoDescription.value}")
+        Log.d("hhh", "date = ${todoEntity.value?.date} == ${getStringDate(_selectedDayIndex.value!!)}")
         Log.d("hhh", "notiDate = ${todoEntity.value?.notiDate} == ${getCalendarToString(selectedCalendar)}")
         return todoEntity.value?.title == todoTitle.value &&
-               todoEntity.value?.description == description.value &&
-               todoEntity.value?.date == getStringDate(_selectedDay.value!!) &&
+               todoEntity.value?.description == todoDescription.value &&
+               todoEntity.value?.date == getStringDate(_selectedDayIndex.value!!) &&
                isModifyNoti()
     }
 
@@ -221,13 +250,23 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
     }
 
 
+    fun onClickNotiSwitch(isOn: Boolean) {
+        isChecked.value = isOn
+    }
 
-    fun onClickEditSave(view: View) {
+
+    fun onClickCompleted(view: View) {
 
         if (view is AppCompatImageButton) {
-            view.setImageResource(if (isEditMode) R.drawable.avd_anim_edit_save else R.drawable.avd_anim_save_edit )
+            view.setImageResource(if (isCompleted) R.drawable.avd_anim_to_unchecked else R.drawable.avd_anim_to_checked )
             val icon = view.drawable
-            isEditMode = !isEditMode
+            isCompleted = !isCompleted
+            viewModelScope.launch {
+                if (todoId.value != -1) {
+                    todoRepository.updateCompleted(todoId.value!!, isCompleted)
+                }
+            }
+
             if (icon is AnimatedVectorDrawable) {
                 icon.start()
             }

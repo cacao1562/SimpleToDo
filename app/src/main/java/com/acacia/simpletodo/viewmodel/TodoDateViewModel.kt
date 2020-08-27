@@ -55,7 +55,7 @@ class TodoDateViewModel : ViewModel() {
         _selectedMin.value = min + 2
 
         yearText.value = "${year}"
-        dateText.value = "${month}월 ${day}일 ${getWeek(week)}요일"
+        dateText.value = "${month + 1}월 ${day}일 ${getWeek(week)}요일"
 
         val list = getCalendarList()
         for ((index, date) in list.withIndex()) {

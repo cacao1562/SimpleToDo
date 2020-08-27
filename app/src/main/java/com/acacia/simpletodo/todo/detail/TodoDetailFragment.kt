@@ -7,8 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -131,7 +129,7 @@ class TodoDetailFragment : Fragment(),
         viewModel.isChecked.observe(viewLifecycleOwner, Observer {
             binding.todoDetailSwitch.isChecked = it
             if (it == false) {
-                cancleAlarm(viewModel.taskId.value!!)
+                cancleAlarm(viewModel.todoId.value!!)
             }
         })
 
@@ -145,9 +143,9 @@ class TodoDetailFragment : Fragment(),
         if (viewModel.isChecked.value == false) return
 
         val alarmManager = getAlarmManager()
-        val pendingIntent = getPendingIntent(viewModel.taskId.value!!,
+        val pendingIntent = getPendingIntent(viewModel.todoId.value!!,
                                        viewModel.todoTitle.value ?: "",
-                                       viewModel.description.value ?: "")
+                                       viewModel.todoDescription.value ?: "")
 
         viewModel.selectedCalendar.set(Calendar.SECOND, 10)
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, viewModel.selectedCalendar.timeInMillis, pendingIntent)

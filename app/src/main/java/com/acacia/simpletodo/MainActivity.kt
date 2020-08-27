@@ -11,6 +11,7 @@ import androidx.room.Room
 import com.acacia.simpletodo.databinding.ActivityMainBinding
 import com.acacia.simpletodo.di.TodoComponent
 import com.acacia.simpletodo.todo.detail.TodoDetailFragment
+import com.acacia.simpletodo.todo.detail.TodoNewDetailFragment
 import com.acacia.simpletodo.viewmodel.TodoViewModel
 import javax.inject.Inject
 
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 //        super.onBackPressed()
         supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.let {
             for (fragment in it.childFragmentManager.fragments) {
-                if (fragment is TodoDetailFragment && !fragment.onBackPressed()) {
+                if (fragment is TodoNewDetailFragment && !fragment.onBackPressed()) {
                     return
                 }else {
                     super.onBackPressed()
