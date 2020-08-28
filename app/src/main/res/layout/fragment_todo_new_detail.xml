@@ -51,12 +51,14 @@
                     android:layout_width="55dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_baseline_delete_outline_24"
+                    android:visibility="@{viewmodel.todoId == -1 ? View.GONE : View.VISIBLE}"
                     android:background="@drawable/ripple_oval" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/todoDetail_btn_complete"
                     android:layout_width="55dp"
                     android:layout_height="match_parent"
+                    android:visibility="@{viewmodel.todoId == -1 ? View.GONE : View.VISIBLE}"
                     android:onClick="@{(v) -> viewmodel.onClickCompleted(v)}"
                     android:src="@{viewmodel.isInitCompleted() ? @drawable/ic_checked : @drawable/ic_unchecked}"
                     android:background="@drawable/ripple_oval" />
@@ -147,7 +149,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="?selectableItemBackground"
+                android:background="@android:color/white"
+                android:foreground="?selectableItemBackground"
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_marginEnd="@dimen/default_margin"
                 android:layout_marginTop="@dimen/default_margin"

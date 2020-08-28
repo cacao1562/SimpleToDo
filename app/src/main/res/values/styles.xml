@@ -6,9 +6,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 <!--        <item name="colorAccent">@color/colorAccent</item>-->
         <item name="colorAccent">#63B6FF</item>
-
-
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+<!--        <item name="android:colorControlHighlight">@color/colorBlue</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -32,5 +31,11 @@
         parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_dialog_border</item>
         <item name="android:backgroundTint">@color/colorBlue</item>
+    </style>
+
+    <style name="CustomDialog">
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:colorControlHighlight">@color/colorBlue</item>
     </style>
 </resources>

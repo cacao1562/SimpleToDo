@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">SimpleToDo</string>
+
+    <string name="dialog_save_title">변경사항을 저장 하시겠습니까?</string>
+    <string name="dialog_save_cancle">저장 안함</string>
+    <string name="dialog_save_confirm">저장</string>
+
+    <string name="dialog_delete_title">삭제 하시겠습니까?</string>
+    <string name="dialog_delete_cancle">취소</string>
+    <string name="dialog_delete_confirm">삭제</string>
 </resources>

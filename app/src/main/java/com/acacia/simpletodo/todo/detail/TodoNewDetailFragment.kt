@@ -17,17 +17,23 @@ import com.acacia.simpletodo.TodoApplication
 import com.acacia.simpletodo.databinding.FragmentTodoNewDetailBinding
 import com.acacia.simpletodo.di.TodoComponent
 import com.acacia.simpletodo.todo.datedialog.DatePickerDialog
-import com.acacia.simpletodo.todo.dialog.SaveDialog
+import com.acacia.simpletodo.todo.dialog.CustomDialog
 import com.acacia.simpletodo.viewmodel.TodoDetailViewModel
 import java.util.*
 import javax.inject.Inject
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.acacia.simpletodo.R
 import com.acacia.simpletodo.utils.*
 
 class TodoNewDetailFragment: Fragment(),
     DatePickerDialog.OnDateSelectedListener,
-    SaveDialog.OnSaveListener {
+    CustomDialog.OnDialogBtnResult {
+
+    enum class DialogType {
+        DialogType_Save,
+        DialogType_Delete
+    }
 
     private val appComponent: TodoComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         (activity?.application as TodoApplication).appComponent
@@ -88,7 +94,12 @@ class TodoNewDetailFragment: Fragment(),
     private fun initBinds() {
         binding.todoDetailBtnBack.setOnClickListener {
             if (viewModel.isModifyTodo() == false) {
-                SaveDialog(requireContext(), this).show()
+                showDialog(
+                    DialogType.DialogType_Save,
+                    resources.getString(R.string.dialog_save_title),
+                    resources.getString(R.string.dialog_save_cancle),
+                    resources.getString(R.string.dialog_save_confirm)
+                )
             }else {
                 findNavController().popBackStack()
             }
@@ -103,6 +114,15 @@ class TodoNewDetailFragment: Fragment(),
                 )
                 dialog.show(activity?.supportFragmentManager!!, dialog.tag)
             }
+        }
+
+        binding.todoDetailBtnDelete.setOnClickListener {
+            showDialog(
+                DialogType.DialogType_Delete,
+                resources.getString(R.string.dialog_delete_title),
+                resources.getString(R.string.dialog_delete_cancle),
+                resources.getString(R.string.dialog_delete_confirm)
+            )
         }
     }
 
@@ -164,21 +184,48 @@ class TodoNewDetailFragment: Fragment(),
      * 변경사항 있을때 나타나는 팝업
      * 저장 안함, 저장 버튼 false, true로 리턴
      */
-    override fun onSaved(isSaved: Boolean) {
-        if (isSaved) {
-            viewModel.updateTodo()
-        }else {
-            findNavController().popBackStack()
+    override fun onClickResult(isSaved: Boolean, type: DialogType) {
+        when(type) {
+            DialogType.DialogType_Save -> {
+                if (isSaved) {
+                    viewModel.updateTodo()
+                }else {
+                    findNavController().popBackStack()
+                }
+            }
+            DialogType.DialogType_Delete -> {
+                if (isSaved) {
+                    viewModel.deleteTodo {
+                        findNavController().popBackStack()
+                    }
+                }
+            }
         }
+
     }
 
     fun onBackPressed(): Boolean {
         if (viewModel.isModifyTodo() == false) {
             // show alert
-            SaveDialog(requireContext(), this).show()
+            showDialog(
+                DialogType.DialogType_Save,
+                resources.getString(R.string.dialog_save_title),
+                resources.getString(R.string.dialog_save_cancle),
+                resources.getString(R.string.dialog_save_confirm)
+            )
             return false
         }
         return true
+    }
+
+
+    private fun showDialog(type: DialogType, title: String, cancle: String, confirm: String) {
+        CustomDialog(requireContext(),
+            type,
+            title,
+            cancle,
+            confirm,
+            this).show()
     }
 
 }

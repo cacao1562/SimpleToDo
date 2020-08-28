@@ -273,4 +273,14 @@ class TodoDetailViewModel @Inject constructor(private val todoRepository: TodoRe
         }
 
     }
+
+    fun deleteTodo(callback: () -> Unit) {
+        viewModelScope.launch {
+            if (todoId.value != -1) {
+                todoRepository.deleteTodoById(todoId.value!!)
+                callback.invoke()
+            }
+        }
+    }
+
 }

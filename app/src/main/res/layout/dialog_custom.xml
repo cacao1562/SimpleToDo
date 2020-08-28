@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/customDialog_linear"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_savedialog_border"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/default_margin"
+    android:layout_marginStart="@dimen/default_margin"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/customDialog_tv_title"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:textColor="@color/color222222"
+            android:textSize="18dp"
+            tools:text="변경사항을 저장 하시겠습니까?" />
+
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:background="?selectableItemBackgroundBorderless"
+                android:id="@+id/customDialog_btn_cancle"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorBlue"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                tools:text="저장 안함" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:background="?selectableItemBackgroundBorderless"
+                android:id="@+id/customDialog_btn_confirm"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorBlue"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                tools:text="저장" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

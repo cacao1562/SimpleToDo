@@ -18,7 +18,7 @@ import com.acacia.simpletodo.R
 import com.acacia.simpletodo.TodoApplication
 import com.acacia.simpletodo.databinding.FragmentTodoDetailBinding
 import com.acacia.simpletodo.di.TodoComponent
-import com.acacia.simpletodo.todo.dialog.SaveDialog
+import com.acacia.simpletodo.todo.dialog.CustomDialog
 import com.acacia.simpletodo.utils.cancleAlarm
 import com.acacia.simpletodo.utils.dpToPx
 import com.acacia.simpletodo.utils.getAlarmManager
@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 class TodoDetailFragment : Fragment(),
     DatePickerDialog.OnDateSelectedListener,
-    SaveDialog.OnSaveListener{
+    CustomDialog.OnDialogBtnResult{
 
     private val appComponent: TodoComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         (activity?.application as TodoApplication).appComponent
@@ -113,7 +113,6 @@ class TodoDetailFragment : Fragment(),
 
         binding.todoDetailBtnBack.setOnClickListener {
             if (viewModel.isModifyTodo() == false) {
-                SaveDialog(requireContext(), this).show()
             }else {
                 findNavController().popBackStack()
             }
@@ -161,18 +160,12 @@ class TodoDetailFragment : Fragment(),
         Log.d("ddd", "onResult = $cal")
     }
 
-    override fun onSaved(isSaved: Boolean) {
-        if (isSaved) {
-            viewModel.updateTodo()
-        }else {
-            findNavController().popBackStack()
-        }
+    override fun onClickResult(isSaved: Boolean, type: TodoNewDetailFragment.DialogType) {
     }
 
     fun onBackPressed(): Boolean {
         if (viewModel.isModifyTodo() == false) {
             // show alert
-            SaveDialog(requireContext(), this).show()
             return false
         }
         return true
