@@ -235,7 +235,6 @@ abstract class MySwipeHelper(
             return
         }
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            Log.d("yyy", " dx = $dX")
             if (dX < 0) {
                 var buffer: MutableList<MyButton> =
                     ArrayList()

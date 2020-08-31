@@ -1,10 +1,13 @@
 package com.acacia.simpletodo.todo.list
 
+import android.animation.ObjectAnimator
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.acacia.simpletodo.R
 import com.acacia.simpletodo.database.TodoEntity
 import com.acacia.simpletodo.databinding.TodoItemBinding
 import com.acacia.simpletodo.viewmodel.TodoViewModel
@@ -22,6 +25,9 @@ class TodoAdapter(private val viewModel: TodoViewModel) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
 
+//        ObjectAnimator.ofFloat(holder.itemView, "alpha", 0.0f, 1.0f).start()
+        val ani = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.item_animation)
+        holder.itemView.startAnimation(ani)
         holder.bind(viewModel, item)
     }
 

@@ -40,6 +40,19 @@ fun getDisplayDate(cal: Calendar): String {
     return "${getWeek(week)}\n${day}"
 }
 
+fun getDisplayNotiDate(str: String): String {
+    val cal = getStringToCalendar(str)
+    cal?.let {
+        val month = cal.get(Calendar.MONTH)
+        val day = cal.get(Calendar.DATE)
+        val hour = cal.get(Calendar.HOUR_OF_DAY) // 24
+        val min = cal.get(Calendar.MINUTE)
+        return "${hour}:${min}"
+    }
+    return ""
+}
+
+
 fun getTodoDay(): List<TodoDay> {
     val list = getCalendarList()
     val dayList = arrayListOf<TodoDay>()

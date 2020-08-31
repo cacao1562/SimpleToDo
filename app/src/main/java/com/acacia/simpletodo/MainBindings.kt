@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.acacia.simpletodo.database.TodoEntity
@@ -34,8 +35,10 @@ object MainBindings {
     @BindingAdapter("completedTask")
     fun setStyle(textView: TextView, enabled: Boolean) {
         if (enabled) {
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.colorA3))
             textView.paintFlags = textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         } else {
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.color222222))
             textView.paintFlags = textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
         }
     }

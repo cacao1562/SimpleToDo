@@ -5,7 +5,8 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
+
         <import type="android.widget.CompoundButton" />
 
         <variable
@@ -20,40 +21,65 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:onClick="@{() -> viewmodel.openTodoDetail(todo.id)}">
+        android:background="?selectableItemBackground"
+        android:paddingStart="8dp"
+        android:onClick="@{() -> viewmodel.openTodoDetail(todo.id)}"
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/todoItem_checkbox"
-            android:paddingEnd="@dimen/default_margin"
-            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center_vertical"
+            android:buttonTint="@color/colorA3"
+            android:button="@drawable/select_check"
             android:checked="@{todo.completed}"
             android:onClick="@{(view) -> viewmodel.updateCompleted(todo.id, ((CompoundButton)view).isChecked())}"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical" />
+            android:paddingEnd="@dimen/default_margin" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/todoItem_tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:text="@{todo.titleForList}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 app:completedTask="@{todo.completed}" />
 
-            <TextView
-                android:id="@+id/todoItem_tv_description"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{todo.description}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                app:completedTask="@{todo.completed}" />
+                android:orientation="horizontal"
+                android:layout_gravity="start"
+                android:visibility="@{todo.notiDate.empty ? View.GONE : View.VISIBLE}"
+                >
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:tint="@color/colorLineGray"
+                    android:src="@drawable/ic_baseline_notifications_24"/>
+
+                <TextView
+                    android:id="@+id/todoItem_tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{todo.displayNotiDate}"
+                    android:textSize="12dp"
+                    android:textColor="@color/colorLineGray"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+                    app:completedTask="@{todo.completed}" />
+            </LinearLayout>
+
 
         </LinearLayout>
 

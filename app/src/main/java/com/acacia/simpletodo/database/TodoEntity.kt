@@ -3,6 +3,8 @@ package com.acacia.simpletodo.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.acacia.simpletodo.utils.getDisplayDate
+import com.acacia.simpletodo.utils.getDisplayNotiDate
 import java.util.*
 
 @Entity(tableName = "todoList")
@@ -18,6 +20,8 @@ data class TodoEntity @JvmOverloads constructor(
     val titleForList: String
         get() = if (title.isNotEmpty()) title else description
 
+    val displayNotiDate: String
+        get() = if (notiDate.isNotEmpty()) getDisplayNotiDate(notiDate) else ""
 
     val isActive
         get() = !isCompleted
