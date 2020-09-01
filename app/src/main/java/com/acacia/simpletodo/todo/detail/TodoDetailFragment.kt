@@ -31,9 +31,6 @@ class TodoDetailFragment : Fragment(),
     DatePickerDialog.OnDateSelectedListener,
     CustomDialog.OnDialogBtnResult{
 
-    private val appComponent: TodoComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
-        (activity?.application as TodoApplication).appComponent
-    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -46,7 +43,7 @@ class TodoDetailFragment : Fragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        appComponent.inject(this)
+        TodoApplication.instance.appComponent.inject(this)
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,13 +83,13 @@ class TodoDetailFragment : Fragment(),
 
         binding.todoDetailRadioGroup.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId) {
-                R.id.todoDetail_radio_01 -> { viewModel.setSelectedDay(0) }
-                R.id.todoDetail_radio_02 -> { viewModel.setSelectedDay(1) }
-                R.id.todoDetail_radio_03 -> { viewModel.setSelectedDay(2) }
-                R.id.todoDetail_radio_04 -> { viewModel.setSelectedDay(3) }
-                R.id.todoDetail_radio_05 -> { viewModel.setSelectedDay(4) }
-                R.id.todoDetail_radio_06 -> { viewModel.setSelectedDay(5) }
-                R.id.todoDetail_radio_07 -> { viewModel.setSelectedDay(6) }
+                R.id.mainFm_radio_01 -> { viewModel.setSelectedDay(0) }
+                R.id.mainFm_radio_02 -> { viewModel.setSelectedDay(1) }
+                R.id.mainFm_radio_03 -> { viewModel.setSelectedDay(2) }
+                R.id.mainFm_radio_04 -> { viewModel.setSelectedDay(3) }
+                R.id.mainFm_radio_05 -> { viewModel.setSelectedDay(4) }
+                R.id.mainFm_radio_06 -> { viewModel.setSelectedDay(5) }
+                R.id.mainFm_radio_07 -> { viewModel.setSelectedDay(6) }
             }
         }
 

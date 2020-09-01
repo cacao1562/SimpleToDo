@@ -18,5 +18,6 @@ interface TodoComponent {
     fun inject(todoListFragment: TodoListFragment)
     fun inject(todoDetailFragment: TodoDetailFragment)
     fun inject(todoNewDetailFragment: TodoNewDetailFragment)
+    fun inject(notifyActionReceiver: NotifyActionReceiver)
 
 }

@@ -29,6 +29,9 @@ interface TodoDAO {
     @Query("SELECT * FROM todoList WHERE date = :date")
     suspend fun getTaskByDate(date: String): List<TodoEntity>?
 
+    @Query("SELECT * FROM todoList WHERE date BETWEEN :from AND :to")
+    suspend fun getTaskBetweenDate(from: String, to: String): List<TodoEntity>?
+
     /**
      * Insert a task in the database. If the task already exists, replace it.
      *

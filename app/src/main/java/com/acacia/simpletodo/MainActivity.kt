@@ -17,10 +17,6 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    private val appComponent: TodoComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
-        (this.application as TodoApplication).appComponent
-    }
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -32,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        appComponent.inject(this)
+        TodoApplication.instance.appComponent.inject(this)
 
         viewModel = ViewModelProvider(this, viewModelFactory)[TodoViewModel::class.java]
 

@@ -34,6 +34,9 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
     private val _items = MutableLiveData<List<TodoEntity>>().apply { value = emptyList() }
     val items: LiveData<List<TodoEntity>> = _items
 
+    private val _mainList = MutableLiveData<List<TodoEntity>>().apply { value = emptyList() }
+    val mainList: LiveData<List<TodoEntity>> = _mainList
+
     private val _todoId = MutableLiveData<Int>()
     val todoId: LiveData<Int> = _todoId
 
@@ -45,6 +48,11 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
             val date = getStringDate(index)
             todoRepository.getTodoByDate(date)?.let {
                 _items.value = it
+            }
+            val today = getStringDate(0)
+            val last = getStringDate(6)
+            todoRepository.getTaskBetweenDate(today, last)?.let {
+                _mainList.value = it
             }
         }
     }

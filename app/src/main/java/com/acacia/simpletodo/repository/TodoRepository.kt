@@ -72,4 +72,14 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDAO) {
                 e.printStackTrace()
             }
         }
+
+    suspend fun getTaskBetweenDate(from: String, to: String) =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                todoDao.getTaskBetweenDate(from, to)
+            }catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
 }

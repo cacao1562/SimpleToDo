@@ -47,7 +47,11 @@ fun getDisplayNotiDate(str: String): String {
         val day = cal.get(Calendar.DATE)
         val hour = cal.get(Calendar.HOUR_OF_DAY) // 24
         val min = cal.get(Calendar.MINUTE)
-        return "${hour}:${min}"
+        var stmin = min.toString()
+        if (min < 10) {
+            stmin = "0$min"
+        }
+        return "${hour} : ${stmin}"
     }
     return ""
 }

@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.acacia.simpletodo.TodoApplication
 import com.acacia.simpletodo.databinding.FragmentTodoNewDetailBinding
-import com.acacia.simpletodo.di.TodoComponent
 import com.acacia.simpletodo.todo.datedialog.DatePickerDialog
 import com.acacia.simpletodo.todo.dialog.CustomDialog
 import com.acacia.simpletodo.viewmodel.TodoDetailViewModel
@@ -35,10 +34,6 @@ class TodoNewDetailFragment: Fragment(),
         DialogType_Delete
     }
 
-    private val appComponent: TodoComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
-        (activity?.application as TodoApplication).appComponent
-    }
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -52,7 +47,7 @@ class TodoNewDetailFragment: Fragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        appComponent.inject(this)
+        TodoApplication.instance.appComponent.inject(this)
     }
     override fun onCreateView(
         inflater: LayoutInflater,

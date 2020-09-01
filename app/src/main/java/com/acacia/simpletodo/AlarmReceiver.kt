@@ -51,12 +51,19 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun deliverNotification(context: Context) {
         val contentIntent = Intent(context, MainActivity::class.java)
+        contentIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         val contentPendingIntent = PendingIntent.getActivity(
             context,
             mNotiId,
             contentIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
+
+        val btnIntent = Intent(context, NotifyActionReceiver::class.java)
+        btnIntent.action = "COMPLETE"
+        btnIntent.putExtra("ID", mNotiId)
+        val btnPendingIntent = PendingIntent.getBroadcast(context, 123, btnIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
         val builder =
             NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
 //                .setSmallIcon(R.drawable.ic_alarm)
@@ -64,6 +71,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setContentTitle(mTitle)
                 .setContentText(mDescription)
                 .setContentIntent(contentPendingIntent)
+                .addAction(android.R.drawable.ic_notification_clear_all, "완료", btnPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)

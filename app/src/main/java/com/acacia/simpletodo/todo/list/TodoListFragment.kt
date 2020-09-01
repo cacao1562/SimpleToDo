@@ -20,9 +20,6 @@ import javax.inject.Inject
 
 class TodoListFragment : Fragment() {
 
-    private val appComponent: TodoComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
-        (activity?.application as TodoApplication).appComponent
-    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -45,7 +42,7 @@ class TodoListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        appComponent.inject(this)
+        TodoApplication.instance.appComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -87,6 +84,16 @@ class TodoListFragment : Fragment() {
                     }
                     if (fragment is TodoNewMainFragment) {
                         fragment.openTodoDetail(todoId)
+                    }
+                }
+            }
+        })
+
+        viewModel.mainList.observe(viewLifecycleOwner, Observer { list ->
+            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment)?.let {
+                for (fragment in it.childFragmentManager.fragments) {
+                    if (fragment is TodoNewMainFragment) {
+                        fragment.setMainTodoCount(list)
                     }
                 }
             }

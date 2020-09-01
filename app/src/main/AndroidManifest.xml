@@ -22,8 +22,12 @@
 
         <receiver android:name=".AlarmReceiver"
             android:exported="true">
+        </receiver>
+
+        <receiver android:name=".NotifyActionReceiver"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.NOTIFY" />
+                <action android:name="COMPLETE" />
             </intent-filter>
         </receiver>
 

@@ -171,7 +171,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <RadioButton
-                    android:id="@+id/todoDetail_radio_01"
+                    android:id="@+id/mainFm_radio_01"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -184,7 +184,7 @@
                     android:drawableBottom="@drawable/date_radio_selector"/>
 
                 <RadioButton
-                    android:id="@+id/todoDetail_radio_02"
+                    android:id="@+id/mainFm_radio_02"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -197,7 +197,7 @@
                     android:drawableBottom="@drawable/date_radio_selector"/>
 
                 <RadioButton
-                    android:id="@+id/todoDetail_radio_03"
+                    android:id="@+id/mainFm_radio_03"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -210,7 +210,7 @@
                     android:drawableBottom="@drawable/date_radio_selector"/>
 
                 <RadioButton
-                    android:id="@+id/todoDetail_radio_04"
+                    android:id="@+id/mainFm_radio_04"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -223,7 +223,7 @@
                     android:drawableBottom="@drawable/date_radio_selector"/>
 
                 <RadioButton
-                    android:id="@+id/todoDetail_radio_05"
+                    android:id="@+id/mainFm_radio_05"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -236,7 +236,7 @@
                     android:drawableBottom="@drawable/date_radio_selector"/>
 
                 <RadioButton
-                    android:id="@+id/todoDetail_radio_06"
+                    android:id="@+id/mainFm_radio_06"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -249,7 +249,7 @@
                     android:drawableBottom="@drawable/date_radio_selector"/>
 
                 <RadioButton
-                    android:id="@+id/todoDetail_radio_07"
+                    android:id="@+id/mainFm_radio_07"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
