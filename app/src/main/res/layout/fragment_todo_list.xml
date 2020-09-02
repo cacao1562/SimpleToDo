@@ -20,44 +20,58 @@
             android:id="@+id/todoListFm_rv_todoList"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:items="@{viewmodel.items}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="4"
             android:visibility="@{viewmodel.items.size() == 0 ? View.VISIBLE : View.GONE}">
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerInParent="true">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
                 <com.airbnb.lottie.LottieAnimationView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:lottie_fileName="notes.json"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    app:lottie_colorFilter="@color/colorA3"
                     app:lottie_autoPlay="true"
-                    app:lottie_loop="false"
-                    android:layout_gravity="center"/>
+                    app:lottie_fileName="notes.json"
+                    app:lottie_loop="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="할 일을 추가해 보세요!"
-                    android:textStyle="bold"
-                    android:textColor="#AEAEAE"
-                    android:textSize="22dp" />
+                    android:textColor="@color/colorA3"
+                    android:textSize="18dp" />
 
             </LinearLayout>
 
 
-        </RelativeLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

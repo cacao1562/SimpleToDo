@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setTheme(R.style.AppTheme)
         TodoApplication.instance.appComponent.inject(this)
 
         viewModel = ViewModelProvider(this, viewModelFactory)[TodoViewModel::class.java]

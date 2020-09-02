@@ -1,5 +1,6 @@
 package com.acacia.simpletodo.todo.main
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,12 +13,14 @@ import androidx.navigation.fragment.findNavController
 import com.acacia.simpletodo.R
 import com.acacia.simpletodo.database.TodoEntity
 import com.acacia.simpletodo.databinding.FragmentTodoNewMainBinding
-import com.acacia.simpletodo.todo.list.*
+import com.acacia.simpletodo.todo.list.TodoListFragment
 import com.acacia.simpletodo.utils.getStringDate
 import com.acacia.simpletodo.viewmodel.TodoMainViewModel
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.fragment_todo_new_main.*
 import kotlin.math.abs
+
 
 class TodoNewMainFragment : Fragment() {
 
@@ -52,16 +55,16 @@ class TodoNewMainFragment : Fragment() {
             tr?.commitAllowingStateLoss()
         })
 
-        binding.mainFmAppbarlayout.addOnOffsetChangedListener(object :
-            AppBarLayout.OnOffsetChangedListener {
-            override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-
-                val ratio = verticalOffset.toFloat() / binding.mainFmAppbarlayout.totalScrollRange
-                val rgb = (255 * abs(ratio)).toInt()
-                binding.mainFmCountLinear.alpha = ratio + 1
-            }
+        binding.mainFmAppbarlayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val ratio = verticalOffset.toFloat() / binding.mainFmAppbarlayout.totalScrollRange
+            val rgb = (255 * abs(ratio)).toInt()
+            binding.mainFmCountLinear.alpha = ratio + 1
         })
 
+        binding.mainFmBtnSetting.setOnClickListener {
+            val action = TodoNewMainFragmentDirections.actionTodoNewMainFragmentToTodoSettingFragment()
+            findNavController().navigate(action)
+        }
     }
 
     fun setMainTodoCount(list: List<TodoEntity>) {
