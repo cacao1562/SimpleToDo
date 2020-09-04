@@ -11,7 +11,7 @@
 
         <variable
             name="viewmodel"
-            type="com.acacia.simpletodo.viewmodel.TodoDetailViewModel" />
+            type="com.acacia.seventodo.viewmodel.TodoDetailViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

@@ -7,11 +7,11 @@
 
         <variable
             name="todo"
-            type="com.acacia.simpletodo.database.TodoEntity" />
+            type="com.acacia.seventodo.database.TodoEntity" />
 
         <variable
             name="viewmodel"
-            type="com.acacia.simpletodo.viewmodel.TodoDateViewModel" />
+            type="com.acacia.seventodo.viewmodel.TodoDateViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -102,6 +102,7 @@
                         android:text=":"
                         android:textSize="25dp"
                         android:textStyle="bold"
+                        android:textColor="@color/color222222"
                         android:layout_gravity="center"/>
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/datePicker_rv_min"

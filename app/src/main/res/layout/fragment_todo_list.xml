@@ -9,7 +9,7 @@
 
         <variable
             name="viewmodel"
-            type="com.acacia.simpletodo.viewmodel.TodoViewModel" />
+            type="com.acacia.seventodo.viewmodel.TodoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"

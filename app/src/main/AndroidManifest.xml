@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.acacia.simpletodo">
+    package="com.acacia.seventodo">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".TodoApplication"
+        android:name="com.acacia.seventodo.TodoApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher_seven_todo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_seven_todo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity android:name="com.acacia.seventodo.MainActivity"
             android:theme="@style/MainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,11 +21,11 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AlarmReceiver"
+        <receiver android:name="com.acacia.seventodo.AlarmReceiver"
             android:exported="true">
         </receiver>
 
-        <receiver android:name=".NotifyActionReceiver"
+        <receiver android:name="com.acacia.seventodo.NotifyActionReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="COMPLETE" />

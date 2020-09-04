@@ -6,30 +6,8 @@
     app:startDestination="@id/todoNewMainFragment">
 
     <fragment
-        android:id="@+id/todoMainFragment"
-        android:name="com.acacia.simpletodo.todo.main.TodoMainFragment"
-        android:label="TodoMainFragment"
-        tools:layout="@layout/fragment_todo_main">
-        <action
-            android:id="@+id/action_todoMainFragment_to_todoDetailFragment2"
-            app:destination="@id/todoDetailFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-    </fragment>
-    <fragment
-        android:id="@+id/todoDetailFragment"
-        android:name="com.acacia.simpletodo.todo.detail.TodoDetailFragment"
-        android:label="TodoDetailFragment"
-        tools:layout="@layout/fragment_todo_detail">
-        <argument
-            android:name="todoId"
-            app:argType="integer" />
-    </fragment>
-    <fragment
         android:id="@+id/todoNewMainFragment"
-        android:name="com.acacia.simpletodo.todo.main.TodoNewMainFragment"
+        android:name="com.acacia.seventodo.todo.main.TodoNewMainFragment"
         android:label="TodoNewMainFragment"
         tools:layout="@layout/fragment_todo_new_main">
         <action
@@ -50,7 +28,7 @@
 
     <fragment
         android:id="@+id/todoNewDetailFragment"
-        android:name="com.acacia.simpletodo.todo.detail.TodoNewDetailFragment"
+        android:name="com.acacia.seventodo.todo.detail.TodoNewDetailFragment"
         android:label="TodoNewDetailFragment"
         tools:layout="@layout/fragment_todo_new_detail">
         <argument
@@ -59,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/todoSettingFragment"
-        android:name="com.acacia.simpletodo.todo.setting.TodoSettingFragment"
+        android:name="com.acacia.seventodo.todo.setting.TodoSettingFragment"
         android:label="TodoSettingFragment"
         tools:layout="@layout/fragment_todo_setting"/>
 </navigation>

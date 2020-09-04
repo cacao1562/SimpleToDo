@@ -10,7 +10,7 @@
 
         <variable
             name="viewmodel"
-            type="com.acacia.simpletodo.viewmodel.TodoMainViewModel" />
+            type="com.acacia.seventodo.viewmodel.TodoMainViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -133,6 +133,7 @@
                     android:layout_weight="1"
                     android:button="@null"
                     android:text="@{viewmodel.getTabDate(0)}"
+                    android:textStyle='@{viewmodel.listNumber == 0 ? "bold" : "normal"}'
                     android:checked="@{viewmodel.listNumber == 0}"
                     android:onClick="@{() -> viewmodel.replaceList(0)}"
                     android:textColor="@drawable/date_radio_selector"
@@ -147,6 +148,7 @@
                     android:layout_weight="1"
                     android:button="@null"
                     android:text="@{viewmodel.getTabDate(1)}"
+                    android:textStyle='@{viewmodel.listNumber == 1 ? "bold" : "normal"}'
                     android:checked="@{viewmodel.listNumber == 1}"
                     android:onClick="@{() -> viewmodel.replaceList(1)}"
                     android:textColor="@drawable/date_radio_selector"
@@ -161,6 +163,7 @@
                     android:layout_weight="1"
                     android:button="@null"
                     android:text="@{viewmodel.getTabDate(2)}"
+                    android:textStyle='@{viewmodel.listNumber == 2 ? "bold" : "normal"}'
                     android:checked="@{viewmodel.listNumber == 2}"
                     android:onClick="@{() -> viewmodel.replaceList(2)}"
                     android:textColor="@drawable/date_radio_selector"
@@ -175,6 +178,7 @@
                     android:layout_weight="1"
                     android:button="@null"
                     android:text="@{viewmodel.getTabDate(3)}"
+                    android:textStyle='@{viewmodel.listNumber == 3 ? "bold" : "normal"}'
                     android:checked="@{viewmodel.listNumber == 3}"
                     android:onClick="@{() -> viewmodel.replaceList(3)}"
                     android:textColor="@drawable/date_radio_selector"
@@ -189,6 +193,7 @@
                     android:layout_weight="1"
                     android:button="@null"
                     android:text="@{viewmodel.getTabDate(4)}"
+                    android:textStyle='@{viewmodel.listNumber == 4 ? "bold" : "normal"}'
                     android:checked="@{viewmodel.listNumber == 4}"
                     android:onClick="@{() -> viewmodel.replaceList(4)}"
                     android:textColor="@drawable/date_radio_selector"
@@ -203,6 +208,7 @@
                     android:layout_weight="1"
                     android:button="@null"
                     android:text="@{viewmodel.getTabDate(5)}"
+                    android:textStyle='@{viewmodel.listNumber == 5 ? "bold" : "normal"}'
                     android:checked="@{viewmodel.listNumber == 5}"
                     android:onClick="@{() -> viewmodel.replaceList(5)}"
                     android:textColor="@drawable/date_radio_selector"
@@ -217,6 +223,7 @@
                     android:layout_weight="1"
                     android:button="@null"
                     android:text="@{viewmodel.getTabDate(6)}"
+                    android:textStyle='@{viewmodel.listNumber == 6 ? "bold" : "normal"}'
                     android:checked="@{viewmodel.listNumber == 6}"
                     android:onClick="@{() -> viewmodel.replaceList(6)}"
                     android:textColor="@drawable/date_radio_selector"

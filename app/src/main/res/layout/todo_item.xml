@@ -11,11 +11,11 @@
 
         <variable
             name="todo"
-            type="com.acacia.simpletodo.database.TodoEntity" />
+            type="com.acacia.seventodo.database.TodoEntity" />
 
         <variable
             name="viewmodel"
-            type="com.acacia.simpletodo.viewmodel.TodoViewModel" />
+            type="com.acacia.seventodo.viewmodel.TodoViewModel" />
     </data>
 
     <LinearLayout
