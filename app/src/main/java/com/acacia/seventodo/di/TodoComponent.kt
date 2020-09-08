@@ -4,6 +4,7 @@ import com.acacia.seventodo.*
 import com.acacia.seventodo.di.viewmodel.ViewModelModule
 import com.acacia.seventodo.todo.detail.TodoNewDetailFragment
 import com.acacia.seventodo.todo.list.TodoListFragment
+import com.acacia.seventodo.todo.setting.TodoSettingFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -14,5 +15,6 @@ interface TodoComponent {
     fun inject(todoListFragment: TodoListFragment)
     fun inject(todoNewDetailFragment: TodoNewDetailFragment)
     fun inject(notifyActionReceiver: NotifyActionReceiver)
+    fun inject(todoSettingFragment: TodoSettingFragment)
 
 }

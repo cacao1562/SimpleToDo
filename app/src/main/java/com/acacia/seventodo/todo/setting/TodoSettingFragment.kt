@@ -9,8 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.acacia.seventodo.BuildConfig
-import com.acacia.seventodo.R
+import com.acacia.seventodo.*
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import kotlinx.android.synthetic.main.fragment_todo_setting.*
 
@@ -43,6 +42,12 @@ class TodoSettingFragment: Fragment() {
 
         setFm_btn_license.setOnClickListener {
             startActivity(Intent(requireContext(), OssLicensesMenuActivity::class.java))
+        }
+
+        setFm_btn_notiBar.setOnClickListener {
+            val intent = Intent(requireContext(), NotifyActionReceiver::class.java)
+            intent.action = "REFRESH"
+            requireContext().sendBroadcast(intent)
         }
     }
 }
