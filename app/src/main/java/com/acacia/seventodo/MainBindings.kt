@@ -13,6 +13,8 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.acacia.seventodo.database.TodoEntity
 import com.acacia.seventodo.todo.datedialog.DatePickerAdapter
+import com.acacia.seventodo.todo.history.HistoryAdapter
+import com.acacia.seventodo.todo.history.TodoHistoryEntity
 import com.acacia.seventodo.todo.list.TodoAdapter
 import com.acacia.seventodo.viewmodel.TodoViewModel
 
@@ -23,6 +25,12 @@ object MainBindings {
     @BindingAdapter("items")
     fun setItems(listView: RecyclerView, items: List<TodoEntity>) {
         (listView.adapter as TodoAdapter).submitList(items)
+    }
+
+    @JvmStatic
+    @BindingAdapter("historyItems")
+    fun setHistoryItems(listView: RecyclerView, items: List<TodoHistoryEntity>) {
+        (listView.adapter as HistoryAdapter).submitList(items)
     }
 
     @JvmStatic

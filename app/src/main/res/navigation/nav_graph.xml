@@ -24,6 +24,13 @@
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_todoNewMainFragment_to_todoHistoryFragment"
+            app:destination="@id/todoHistoryFragment"
+            app:popEnterAnim="@anim/slide_in_right_history"
+            app:popExitAnim="@anim/slide_out_left_history"
+            app:enterAnim="@anim/slide_in_left_history"
+            app:exitAnim="@anim/slide_out_right_history"/>
     </fragment>
 
     <fragment
@@ -40,4 +47,9 @@
         android:name="com.acacia.seventodo.todo.setting.TodoSettingFragment"
         android:label="TodoSettingFragment"
         tools:layout="@layout/fragment_todo_setting"/>
+    <fragment
+        android:id="@+id/todoHistoryFragment"
+        android:name="com.acacia.seventodo.todo.history.TodoHistoryFragment"
+        android:label="TodoHistoryFragment"
+        tools:layout="@layout/fragment_todo_history" />
 </navigation>

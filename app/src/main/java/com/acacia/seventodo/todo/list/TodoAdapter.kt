@@ -11,9 +11,7 @@ import com.acacia.seventodo.database.TodoEntity
 import com.acacia.seventodo.databinding.TodoItemBinding
 import com.acacia.seventodo.viewmodel.TodoViewModel
 
-/**
- * Adapter for the task list. Has a reference to the [TasksViewModel] to send actions back to it.
- */
+
 class TodoAdapter(private val viewModel: TodoViewModel) :
     ListAdapter<TodoEntity, TodoAdapter.ViewHolder>(
         TaskDiffCallback()

@@ -32,6 +32,9 @@ interface TodoDAO {
     @Query("SELECT * FROM todoList WHERE date BETWEEN :from AND :to")
     suspend fun getTaskBetweenDate(from: String, to: String): List<TodoEntity>?
 
+    @Query("SELECT * FROM todoList WHERE date NOT BETWEEN :from AND :to ORDER BY date DESC")
+    suspend fun getTaskNotBetweenDate(from: String, to: String): List<TodoEntity>?
+
     /**
      * Insert a task in the database. If the task already exists, replace it.
      *
@@ -65,6 +68,10 @@ interface TodoDAO {
      */
     @Query("DELETE FROM todoList WHERE entryid = :taskId")
     suspend fun deleteTaskById(taskId: Int): Int
+
+
+    @Query("DELETE FROM todoList WHERE date NOT BETWEEN :from AND :to")
+    suspend fun deleteTaskBetween(from: String, to: String): Int
 
     /**
      * Delete all tasks.

@@ -82,4 +82,24 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDAO) {
                 null
             }
         }
+
+    suspend fun getTaskNotBetweenDate(from: String, to: String) =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                todoDao.getTaskNotBetweenDate(from, to)
+            }catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+
+    suspend fun deleteTodoBetween(from: String, to: String) =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                todoDao.deleteTaskBetween(from, to)
+            }catch (e: Exception) {
+                e.printStackTrace()
+                -1
+            }
+        }
 }

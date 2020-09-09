@@ -12,7 +12,7 @@
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:padding="@dimen/default_margin"
-        android:text="삭제"
+        android:text="전체 삭제"
         android:textAlignment="center"
         android:background="@drawable/ripple_round"/>
 

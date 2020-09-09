@@ -63,6 +63,11 @@ class TodoNewMainFragment : Fragment() {
             val action = TodoNewMainFragmentDirections.actionTodoNewMainFragmentToTodoSettingFragment()
             findNavController().navigate(action)
         }
+
+        binding.mainFmBtnHistory.setOnClickListener {
+            val action = TodoNewMainFragmentDirections.actionTodoNewMainFragmentToTodoHistoryFragment()
+            findNavController().navigate(action)
+        }
     }
 
     fun setMainTodoCount(list: List<TodoEntity>) {

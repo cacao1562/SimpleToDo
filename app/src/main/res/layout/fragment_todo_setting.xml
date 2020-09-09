@@ -14,7 +14,7 @@
 
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/detail_appbarLayout"
+            android:id="@+id/setFm_appbarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/black"

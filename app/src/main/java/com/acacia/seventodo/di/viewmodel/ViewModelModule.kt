@@ -3,6 +3,7 @@ package com.acacia.seventodo.di.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.acacia.seventodo.viewmodel.TodoDetailViewModel
+import com.acacia.seventodo.viewmodel.TodoHistoryViewModel
 import com.acacia.seventodo.viewmodel.TodoViewModel
 import dagger.Binds
 import dagger.Module
@@ -23,5 +24,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(TodoDetailViewModel::class)
     abstract fun bindsTodoDetailViewModel(todoDetailViewModel: TodoDetailViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TodoHistoryViewModel::class)
+    abstract fun bindsTodoHistoryViewModel(todoHistoryViewModel: TodoHistoryViewModel): ViewModel
 
 }
