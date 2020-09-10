@@ -56,4 +56,10 @@ class TodoHistoryFragment: Fragment() {
         viewModel.loadHistory()
 
     }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.dismissPopup()
+    }
+
 }

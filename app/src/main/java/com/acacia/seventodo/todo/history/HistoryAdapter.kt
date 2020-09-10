@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.acacia.seventodo.R
+import com.acacia.seventodo.utils.getHistorySectionDate
 import com.acacia.seventodo.viewmodel.TodoHistoryViewModel
 import com.acacia.seventodo.viewmodel.TodoViewModel
 import kotlinx.android.synthetic.main.item_history_data.view.*
@@ -62,7 +63,7 @@ class HistoryAdapter (private val viewModel: TodoHistoryViewModel) :
 
         override fun bind(obj: TodoHistoryEntity) {
 
-            itemView.historyItem_tv_date.text = obj.date
+            itemView.historyItem_tv_date.text = getHistorySectionDate(obj.date)
         }
     }
 

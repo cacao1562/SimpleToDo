@@ -97,6 +97,23 @@ fun getTimeList(size: Int): ArrayList<String> {
     return list
 }
 
+fun getHistorySectionDate(str: String): String {
+    val sdf = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
+    val date = sdf.parse(str)
+    date?.let {
+        val cal = Calendar.getInstance()
+        cal.time = it
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH)
+        val week = cal.get(Calendar.DAY_OF_WEEK)
+        val day = cal.get(Calendar.DATE)
+        return "${year}-${addZero(month + 1)}-${addZero(day)} (${getWeek(week)})"
+    } ?: run {
+        return ""
+    }
+}
+
+
 fun getStringDate(index: Int): String {
     val time = getCalendarList()[index].time
     val sdf = SimpleDateFormat("yyyyMMdd", Locale.KOREA)

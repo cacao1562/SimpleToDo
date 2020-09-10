@@ -54,6 +54,8 @@ class TodoHistoryViewModel @Inject constructor(private val todoRepository: TodoR
         return historyList
     }
 
+    var popupWindow: PopupWindow? = null
+
     fun showPopupDelete(v: View) {
         val li =
             v.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -61,16 +63,16 @@ class TodoHistoryViewModel @Inject constructor(private val todoRepository: TodoR
         val deleteTextview = popupView.findViewById<AppCompatTextView>(com.acacia.seventodo.R.id.layout_custom_tv_delete)
 
 
-        val popupWindow = PopupWindow(
+        popupWindow = PopupWindow(
             popupView,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 //        popupWindow.setBackgroundDrawable(BitmapDrawable())
-        popupWindow.isOutsideTouchable = true
+        popupWindow!!.isOutsideTouchable = true
 
         deleteTextview.setOnClickListener {
-            popupWindow.dismiss()
+            popupWindow!!.dismiss()
 
             viewModelScope.launch {
                 val today = getStringDate(0)
@@ -80,7 +82,7 @@ class TodoHistoryViewModel @Inject constructor(private val todoRepository: TodoR
             }
         }
 //        popupWindow.showAsDropDown(v)
-        popupWindow.showAtLocation(v, Gravity.RIGHT or Gravity.TOP, 0, 0)
+        popupWindow!!.showAtLocation(v, Gravity.RIGHT or Gravity.TOP, 0, 0)
 
 //        if (window[1] > height) {
 //            popupWindow.showAsDropDown(v, v.context.getDeviceWidth(), -(80.dpToPx(v.context)))
@@ -88,5 +90,12 @@ class TodoHistoryViewModel @Inject constructor(private val todoRepository: TodoR
 //            popupWindow.showAsDropDown(v, v.context.getDeviceWidth(), -(40.dpToPx(v.context)))
 //        }
 //        popupWindow.showAtLocation(v, Gravity.RIGHT, 0, 0)
+    }
+
+    fun dismissPopup() {
+        if (popupWindow == null) return
+        if (popupWindow!!.isShowing) {
+            popupWindow!!.dismiss()
+        }
     }
 }

@@ -43,9 +43,9 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="히스토리"
+                        android:text="History"
                         android:textColor="@android:color/white"
-                        android:textSize="16dp"
+                        android:textSize="17dp"
                         android:textStyle="bold"
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/default_margin" />
